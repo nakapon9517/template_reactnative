@@ -4,29 +4,27 @@
     "slug": "meemoo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./views/assets/icon.png",
+    "icon": "./src/assets/icon.png",
     "splash": {
-      "image": "./views/assets/splash.png",
+      "image": "./src/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./views/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./views/assets/favicon.png"
+      "favicon": "./src/assets/favicon.png"
     }
   }
 }

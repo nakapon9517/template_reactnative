@@ -6,10 +6,10 @@ interface Props {
   test: string;
 }
 
-const ListScreen = (props: Props) => {
+const SettingScreen = (props: Props) => {
   return (
     <View style={styles.container}>
-      <Text>ListScreen</Text>
+      <Text>SettingScreen!</Text>
       <StatusBar style='auto' />
     </View>
   );
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { ListScreen };
+export { SettingScreen };
