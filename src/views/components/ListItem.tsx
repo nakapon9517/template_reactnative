@@ -7,43 +7,78 @@ import {
   ImageSourcePropType,
   SafeAreaView,
 } from 'react-native';
-// import {Text} from 'react-native-elements'
 import { Color } from '@/constants';
 import { Item } from '@/entities';
 import { dateSlash, price } from '@/utils';
 
+type FooterProps = {
+  count: number;
+  price: number;
+};
 interface Props {
-  item: Item;
+  item?: Item;
+  footerItem?: FooterProps;
 }
 
 const ListItem = (props: Props) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <Text style={styles.text}>{props.item.name}</Text>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.text}>{props.item.count}</Text>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.money}>{price(props.item.money)}</Text>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.text}>{dateSlash(props.item.date)}</Text>
-      </View>
-    </View>
+    <>
+      {props.item && (
+        <View style={styles.borderItem}>
+          <View style={styles.titleView}>
+            <Text style={styles.text}>{props.item.name}</Text>
+          </View>
+          <View style={styles.countView}>
+            <Text style={styles.text}>{props.item.count}</Text>
+          </View>
+          <View style={styles.moneyView}>
+            <Text style={styles.money}>{price(props.item.price)}</Text>
+          </View>
+        </View>
+      )}
+      {props.footerItem && (
+        <View style={styles.borderFooterItem}>
+          <View style={styles.titleView} />
+          <View style={styles.countView}>
+            <Text style={styles.text}>{props.footerItem.count}</Text>
+          </View>
+          <View style={styles.moneyView}>
+            <Text style={styles.money}>{price(props.footerItem.price)}</Text>
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 12,
+  borderItem: {
+    paddingLeft: 8,
+    paddingVertical: 12,
     flexDirection: 'row',
-    borderBottomWidth: 0.5,
+    borderTopWidth: 0.5,
     borderColor: Color.gray10,
   },
-  row: {
+  borderFooterItem: {
+    paddingLeft: 8,
+    paddingVertical: 8,
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderColor: Color.gray50,
+  },
+  titleView: {
     flex: 1,
+    paddingEnd: 8,
+    minWidth: '55%',
+  },
+  countView: {
+    flex: 1,
+    paddingEnd: 8,
+    minWidth: '15%',
+  },
+  moneyView: {
+    flex: 1,
+    minWidth: '30%',
   },
   text: {
     fontSize: 14,

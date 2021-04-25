@@ -8,12 +8,11 @@ export const useItem = () => {
   const items: Item[] = [];
   const data = () => {
     for (let i = 0; i < 40; i++) {
-      //160
       const item: Item = {
         id: `test_${i}`,
         name: String('text' + i + '_'),
-        count: i,
-        money: Number(i),
+        count: i * 10,
+        price: i * 1010000,
         category: i % categories.length,
         date: new Date(),
         uri: Require[i % Require.length],
