@@ -32,7 +32,9 @@ const ListItem = (props: Props) => {
             <Text style={styles.text}>{props.item.count}</Text>
           </View>
           <View style={styles.moneyView}>
-            <Text style={styles.money}>{price(props.item.price)}</Text>
+            {props.item.price !== undefined && (
+              <Text style={styles.money}>{price(props.item.price)}</Text>
+            )}
           </View>
         </View>
       )}

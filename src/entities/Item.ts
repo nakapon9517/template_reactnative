@@ -1,11 +1,23 @@
 import { ImageSourcePropType } from 'react-native';
 
-export type Item = {
+type ImageType = {
+  id: string;
+  name?: string;
+  count: number;
+  price?: number;
+  category: number;
+  date: Date;
+  uri: string;
+};
+
+type ListType = {
   id: string;
   name: string;
   count: number;
-  price: number;
+  price?: number;
   category: number;
   date: Date;
-  uri?: ImageSourcePropType;
+  uri?: string;
 };
+
+export type Item = ImageType | ListType;

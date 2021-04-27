@@ -1,7 +1,7 @@
 import { Item } from '@/entities';
 import { Require } from '@/constants';
 
-export const useCategories = () => {
+export const useItemCategories = () => {
   const categories: string[] = [
     'First',
     'Second',

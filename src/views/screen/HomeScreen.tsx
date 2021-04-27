@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,20 +9,62 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  Platform,
+  Button,
+  Image,
 } from 'react-native';
 // import {Text} from 'react-native-elements'
 import { Color } from '@/constants';
-import { useCategories, useItem } from '@/hooks';
-import { ListItem } from '@/views/components';
+import { useImage, useImageCategories } from '@/hooks';
+import { ImageItem } from '@/views/components';
 import { Item } from '@/entities';
 import SectionList from 'react-native-tabs-section-list';
+import Constants from 'expo-constants';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import ImageEditor from '@react-native-community/image-editor';
+import { ListItem } from 'react-native-elements/dist/list/ListItem';
 
 interface Props {
   test: string;
 }
 const HomeScreen = (props: Props) => {
-  const { items } = useItem();
-  const [routes] = useState(() => useCategories());
+  const { items } = useImage();
+  const [routes] = useState(() => useImageCategories());
+  const [image, setImage] = useState<string>();
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const {
+          status,
+        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      // allowsMultipleSelection: true,
+      aspect: [9, 9],
+      quality: 0,
+      base64: true,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      console.log(result.base64);
+      // setImage(result.base64);
+      console.log(result.uri);
+      setImage(result.uri);
+    }
+  };
 
   type TabProps = {
     title: string;
@@ -31,6 +73,7 @@ const HomeScreen = (props: Props) => {
   const TabView = (props: TabProps) => {
     const styles = StyleSheet.create({
       tabContainer: {
+        // flex: 3,
         borderBottomColor: '#090909',
       },
       tabText: {
@@ -60,21 +103,29 @@ const HomeScreen = (props: Props) => {
   };
 
   const sections = routes.map((route, index) => {
+    const sectionItems = items.filter((item) => item.category === index);
     return {
       title: route,
-      data: items.filter((item) => item.category === index),
+      data: new Array(Math.ceil(sectionItems.length / 3))
+        .fill(undefined)
+        .map((_, i) => sectionItems.slice(i * 3, (i + 1) * 3)),
     };
   });
 
   return (
     <SafeAreaView style={styles.container}>
-      <SectionList
+      {/* <SectionList
         sections={sections}
-        keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => item.id}
         stickySectionHeadersEnabled={false}
-        scrollToLocationOffset={10}
+        initialNumToRender={5}
         tabBarStyle={styles.tabBar}
-        contentContainerStyle={{ paddingBottom: 72, paddingHorizontal: 12 }}
+        removeClippedSubviews
+        contentContainerStyle={{
+          width: '100%',
+          paddingBottom: 72,
+          paddingHorizontal: 12,
+        }}
         renderTab={({ title, isActive }) => (
           <TabView title={title} isActive={isActive} />
         )}
@@ -83,20 +134,35 @@ const HomeScreen = (props: Props) => {
             <Text style={styles.sectionHeaderText}>{section.title}</Text>
           </View>
         )}
-        renderSectionFooter={({ section }) => (
-          <ListItem
-            footerItem={{
-              count: section.data
-                .map((item) => item.count)
-                .reduce((prev, current) => prev + current),
-              price: section.data
-                .map((item) => item.price)
-                .reduce((prev, current) => prev + current),
-            }}
-          />
+        renderItem={({ item }) => (
+          <View style={{ flexDirection: 'row' }}>
+            {item.map((item, index) => (
+              <ImageItem key={index} item={item} />
+            ))}
+          </View>
         )}
-        renderItem={({ item }) => <ListItem item={item} />}
-      />
+      /> */}
+      {/* <FlatList
+        data={items}
+        keyExtractor={(item) => item.id}
+        initialNumToRender={5}
+        numColumns={3}
+        renderItem={({ item }) => <ImageItem item={item} />}
+      /> */}
+      <View
+        style={{
+          // display: 'none',
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: Color.gray20,
+        }}
+      >
+        <Button title='Pick an image from camera roll' onPress={pickImage} />
+        {image && (
+          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        )}
+      </View>
       <View style={styles.add}>
         <Text style={styles.addText}>+</Text>
       </View>
@@ -127,7 +193,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   addText: {
-    fontSize: 24,
+    fontSize: 32,
     color: Color.gray5,
   },
   admob: {

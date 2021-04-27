@@ -1,9 +1,9 @@
 import { Item } from '@/entities';
 import { Require } from '@/constants';
-import { useItemCategories } from '@/hooks';
+import { useImageCategories } from '@/hooks';
 
-export const useItem = () => {
-  const categories = useItemCategories();
+const useImage = () => {
+  const categories = useImageCategories();
 
   const items: Item[] = [];
   const data = () => {
@@ -12,7 +12,7 @@ export const useItem = () => {
         id: `test_${i}`,
         name: String('text' + i + '_'),
         count: i * 10,
-        price: i * 1010000,
+        // price: i * 1010000,
         category: i % categories.length,
         date: new Date(),
         uri: Require[i % Require.length],
@@ -24,3 +24,5 @@ export const useItem = () => {
 
   return { items };
 };
+
+export { useImage };
