@@ -59,14 +59,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     flexDirection: 'row',
     borderTopWidth: 0.5,
-    borderColor: Color.gray10,
+    borderColor: Color.gray80,
   },
   borderFooterItem: {
     paddingLeft: 8,
     paddingVertical: 8,
     flexDirection: 'row',
     borderTopWidth: 1,
-    borderColor: Color.gray50,
+    borderColor: Color.gray20,
   },
   titleView: {
     flex: 1,
@@ -84,11 +84,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    color: Color.gray90,
+    color: Color.gray5,
   },
   money: {
     textAlign: 'right',
     paddingEnd: 12,
+    color: Color.gray5,
   },
 });
 

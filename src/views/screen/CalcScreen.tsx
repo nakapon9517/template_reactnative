@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { Color } from '@/constants';
 import { useItemCategories, useItem } from '@/hooks';
 import { ListItem } from '@/views/components';
@@ -18,7 +19,7 @@ import SectionList from 'react-native-tabs-section-list';
 interface Props {
   test: string;
 }
-const ListScreen = (props: Props) => {
+const CalcScreen = (props: Props) => {
   const { items } = useItem();
   const [routes] = useState(() => useItemCategories());
 
@@ -49,7 +50,7 @@ const ListScreen = (props: Props) => {
         <Text
           style={[
             styles.tabText,
-            { color: props.isActive ? '#090909' : '#9e9e9e' },
+            { color: props.isActive ? Color.gray5 : Color.gray50 },
           ]}
         >
           {props.title}
@@ -67,6 +68,7 @@ const ListScreen = (props: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style='light' />
       <SectionList
         sections={sections}
         keyExtractor={(item, index) => String(index)}
@@ -100,7 +102,7 @@ const ListScreen = (props: Props) => {
         <Text style={styles.addText}>+</Text>
       </View>
       <View style={styles.admob}>
-        <Text style={{ color: Color.white }}>admob</Text>
+        <Text style={{ color: Color.gray5 }}>admob</Text>
       </View>
     </SafeAreaView>
   );
@@ -109,20 +111,21 @@ const ListScreen = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Color.gray90,
   },
   list: {
     paddingHorizontal: 12,
   },
   add: {
-    width: 48,
-    height: 48,
+    width: 54,
+    height: 54,
     position: 'absolute',
     right: 8,
     bottom: 68,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 24,
-    backgroundColor: Color.theme1,
+    borderRadius: 27,
+    backgroundColor: Color.gray80,
     zIndex: 999,
   },
   addText: {
@@ -130,7 +133,6 @@ const styles = StyleSheet.create({
     color: Color.gray5,
   },
   admob: {
-    // width: '100%',
     height: 60,
     alignItems: 'center',
     justifyContent: 'center',
@@ -145,7 +147,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     paddingVertical: 16,
+    color: Color.gray5,
   },
 });
 
-export { ListScreen };
+export { CalcScreen };

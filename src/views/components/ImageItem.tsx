@@ -29,29 +29,31 @@ interface Props {
 }
 
 const ImageItem = (props: Props) => {
-  // console.log(props.item);
   // const image = props.item.uri && require(props.item.uri);
   return (
-    <Card containerStyle={styles.view}>
+    <TouchableOpacity style={styles.view}>
       <Card.Image
         source={{ uri: props.item.uri, cache: 'force-cache' }}
-        containerStyle={{ width: 100, height: 100 }}
+        containerStyle={{ width: 100, height: 100, borderRadius: 50 }}
         PlaceholderContent={<ActivityIndicator />}
+        placeholderStyle={styles.indicator}
         resizeMode='stretch'
         // borderTopLeftRadius={50}
         // borderTopRightRadius={50}
         // borderBottomLeftRadius={50}
         // borderBottomRightRadius={50}
       />
-    </Card>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   view: {
-    // flex: 1,
-    padding: 0,
-    margin: 0,
+    flex: 1,
+    padding: 12,
+    width: Dimensions.get('window').width / 3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   indicator: {
     width: '100%',

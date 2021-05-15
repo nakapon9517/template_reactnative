@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, View, StyleSheet } from 'react-native';
 import { Icon, Text } from 'react-native-elements';
 import { Color } from '@/constants';
-import { HomeScreen, ListScreen, SettingScreen } from '@/views/screen';
+import { GridScreen, CalcScreen, MemoScreen } from '@/views/screen';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -12,42 +12,52 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName='Home'
+        initialRouteName='Memo'
         tabBarOptions={{
           showLabel: false,
-          inactiveTintColor: 'gray',
-          activeTintColor: 'gray',
-          inactiveBackgroundColor: Color.gray10,
-          activeBackgroundColor: Color.gray20,
+          inactiveTintColor: Color.gray50,
+          activeTintColor: Color.gray5,
+          inactiveBackgroundColor: Color.gray70,
+          activeBackgroundColor: Color.gray70,
         }}
       >
         <Tab.Screen
-          name='Home'
-          component={HomeScreen}
+          name='Memo'
+          component={MemoScreen}
           options={{
-            tabBarLabel: 'Image',
+            tabBarLabel: 'メモ',
             tabBarIcon: ({ color }) => (
-              <Icon type='ionicons' name='image' color={color} size={28} />
+              <Icon
+                type='material'
+                name='description'
+                color={color}
+                size={28}
+              />
             ),
           }}
         />
         <Tab.Screen
-          name='sub1'
-          component={ListScreen}
+          name='Calc'
+          component={CalcScreen}
           options={{
-            tabBarLabel: 'Memo',
+            tabBarLabel: '会計',
             tabBarIcon: ({ color }) => (
-              <Icon type='ionicons' name='list' color={color} size={32} />
+              <Icon type='material' name='calculate' color={color} size={32} />
             ),
           }}
         />
         <Tab.Screen
-          name='sub2'
-          component={SettingScreen}
+          name='Grid'
+          component={GridScreen}
           options={{
-            tabBarLabel: 'Settings',
+            tabBarLabel: 'カウント',
             tabBarIcon: ({ color }) => (
-              <Icon type='ionicons' name='settings' color={color} size={28} />
+              <Icon
+                type='fontisto'
+                name='nav-icon-grid-a'
+                color={color}
+                size={24}
+              />
             ),
           }}
         />

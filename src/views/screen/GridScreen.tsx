@@ -12,6 +12,7 @@ import {
   Platform,
   Button,
   Image,
+  Alert,
 } from 'react-native';
 // import {Text} from 'react-native-elements'
 import { Color } from '@/constants';
@@ -20,6 +21,7 @@ import { ImageItem } from '@/views/components';
 import { Item } from '@/entities';
 import SectionList from 'react-native-tabs-section-list';
 import Constants from 'expo-constants';
+import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import ImageEditor from '@react-native-community/image-editor';
@@ -28,7 +30,7 @@ import { ListItem } from 'react-native-elements/dist/list/ListItem';
 interface Props {
   test: string;
 }
-const HomeScreen = (props: Props) => {
+const GridScreen = (props: Props) => {
   const { items } = useImage();
   const [routes] = useState(() => useImageCategories());
   const [image, setImage] = useState<string>();
@@ -36,11 +38,10 @@ const HomeScreen = (props: Props) => {
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
+          Alert.alert('権限がありません');
         }
       }
     })();
@@ -51,12 +52,10 @@ const HomeScreen = (props: Props) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       // allowsMultipleSelection: true,
-      aspect: [9, 9],
+      aspect: [1, 1],
       quality: 0,
       base64: true,
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       console.log(result.base64);
@@ -66,54 +65,32 @@ const HomeScreen = (props: Props) => {
     }
   };
 
-  type TabProps = {
-    title: string;
-    isActive: boolean;
-  };
-  const TabView = (props: TabProps) => {
+  const HeaderView = () => {
     const styles = StyleSheet.create({
-      tabContainer: {
-        // flex: 3,
-        borderBottomColor: '#090909',
+      view: {
+        // flex: 1,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: Color.gray90,
+        borderBottomWidth: 1,
+        borderBottomColor: Color.gray80,
       },
-      tabText: {
-        padding: 16,
-        color: '#9e9e9e',
-        fontSize: 18,
-        fontWeight: '500',
+      text: {
+        color: Color.gray5,
       },
     });
+
     return (
-      <View
-        style={[
-          styles.tabContainer,
-          { borderBottomWidth: props.isActive ? 3 : 0 },
-        ]}
-      >
-        <Text
-          style={[
-            styles.tabText,
-            { color: props.isActive ? '#090909' : '#9e9e9e' },
-          ]}
-        >
-          {props.title}
-        </Text>
+      <View style={styles.view}>
+        <Text style={styles.text}>カウント</Text>
       </View>
     );
   };
 
-  const sections = routes.map((route, index) => {
-    const sectionItems = items.filter((item) => item.category === index);
-    return {
-      title: route,
-      data: new Array(Math.ceil(sectionItems.length / 3))
-        .fill(undefined)
-        .map((_, i) => sectionItems.slice(i * 3, (i + 1) * 3)),
-    };
-  });
-
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style='light' />
       {/* <SectionList
         sections={sections}
         keyExtractor={(item, index) => item.id}
@@ -142,14 +119,17 @@ const HomeScreen = (props: Props) => {
           </View>
         )}
       /> */}
-      {/* <FlatList
+      <FlatList
         data={items}
         keyExtractor={(item) => item.id}
         initialNumToRender={5}
         numColumns={3}
+        contentContainerStyle={styles.list}
+        ListHeaderComponent={<HeaderView />}
+        stickyHeaderIndices={[0]}
         renderItem={({ item }) => <ImageItem item={item} />}
-      /> */}
-      <View
+      />
+      {/* <View
         style={{
           // display: 'none',
           flex: 1,
@@ -158,16 +138,15 @@ const HomeScreen = (props: Props) => {
           backgroundColor: Color.gray20,
         }}
       >
-        <Button title='Pick an image from camera roll' onPress={pickImage} />
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
-      </View>
-      <View style={styles.add}>
+      </View> */}
+      <TouchableOpacity style={styles.add} onPress={pickImage}>
         <Text style={styles.addText}>+</Text>
-      </View>
+      </TouchableOpacity>
       <View style={styles.admob}>
-        <Text style={{ color: Color.white }}>admob</Text>
+        <Text style={{ color: Color.gray5 }}>admob</Text>
       </View>
     </SafeAreaView>
   );
@@ -176,20 +155,25 @@ const HomeScreen = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Color.gray90,
   },
   list: {
-    paddingHorizontal: 12,
+    // flex: 1,
+    // justifyContent: 'space-between',
+    // paddingHorizontal: 12,
+    // marginBottom: 480,
+    // paddingBottom: 480,
   },
   add: {
-    width: 48,
-    height: 48,
+    width: 54,
+    height: 54,
     position: 'absolute',
     right: 8,
     bottom: 68,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 24,
-    backgroundColor: Color.theme1,
+    borderRadius: 27,
+    backgroundColor: Color.gray80,
     zIndex: 999,
   },
   addText: {
@@ -215,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { HomeScreen };
+export { GridScreen };
