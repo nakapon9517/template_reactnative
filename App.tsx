@@ -17,8 +17,8 @@ export default function App() {
           showLabel: false,
           inactiveTintColor: Color.gray50,
           activeTintColor: Color.gray5,
-          inactiveBackgroundColor: Color.gray70,
-          activeBackgroundColor: Color.gray70,
+          inactiveBackgroundColor: Color.gray90,
+          activeBackgroundColor: Color.gray90,
         }}
       >
         <Tab.Screen
@@ -40,7 +40,7 @@ export default function App() {
           name='Calc'
           component={CalcScreen}
           options={{
-            tabBarLabel: '会計',
+            tabBarLabel: '計算',
             tabBarIcon: ({ color }) => (
               <Icon type='material' name='calculate' color={color} size={32} />
             ),

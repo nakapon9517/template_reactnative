@@ -11,7 +11,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { Color } from '@/constants';
 import { useItemCategories, useItem } from '@/hooks';
-import { Admob, CalcList, Header } from '@/views/components';
+import { AddButton, Admob, CalcList, Header } from '@/views/components';
 import { Icon } from 'react-native-elements';
 
 interface Props {
@@ -20,33 +20,6 @@ interface Props {
 const CalcScreen = (props: Props) => {
   const { items } = useItem();
   const [routes] = useState(() => useItemCategories());
-
-  const AddButton = React.memo(() => {
-    const styles = StyleSheet.create({
-      add: {
-        width: 54,
-        height: 54,
-        position: 'absolute',
-        right: 8,
-        bottom: 68,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 99,
-        backgroundColor: Color.gray80,
-        zIndex: 99,
-      },
-      addText: {
-        fontSize: 32,
-        color: Color.gray5,
-      },
-    });
-
-    return (
-      <View style={styles.add}>
-        <Text style={styles.addText}>+</Text>
-      </View>
-    );
-  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,7 +36,7 @@ const CalcScreen = (props: Props) => {
         }
       />
       <CalcList routes={routes} items={items} />
-      <AddButton />
+      <AddButton onPress={() => console.log('aas')} />
       <Admob />
     </SafeAreaView>
   );

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Color } from '@/constants';
 import { Item } from '@/entities';
-import { ListItem } from './ListItem';
+import { ListItem } from './item/ListItem';
 import SectionList from 'react-native-tabs-section-list';
 
 interface Props {

@@ -11,32 +11,21 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { Input, Icon } from 'react-native-elements';
 import { Color } from '@/constants';
-import { Admob, MemoList, Header } from '@/views/components';
+import { Textarea } from './item/Textarea';
 
 interface Props {
-  test: string;
+  memos: string[];
 }
 
-const MemoScreen = (props: Props) => {
+const MemoList = (props: Props) => {
   const [text, setText] = useState('');
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style='light' />
-      <Header
-        title='メモ'
-        RightComponent={
-          <TouchableOpacity
-            style={styles.icon}
-            onPress={() => Keyboard.dismiss()}
-          >
-            <Icon type='material' name='list' color={Color.gray5} size={24} />
-          </TouchableOpacity>
-        }
-      />
-      <MemoList memos={['']} />
-      <Admob />
-    </SafeAreaView>
+    <>
+      {props.memos.map((_, i) => (
+        <Textarea key={i} text={text} onChangeText={(text) => setText(text)} />
+      ))}
+    </>
   );
 };
 
@@ -48,10 +37,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.gray90,
   },
   icon: {
-    padding: 8,
+    padding: 12,
     marginRight: 4,
     alignItems: 'flex-end',
   },
 });
 
-export { MemoScreen };
+export { MemoList };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { Item } from '@/entities';
-import { ImageItem } from './ImageItem';
+import { ImageItem } from './item/ImageItem';
 
 interface Props {
   items: Item[];

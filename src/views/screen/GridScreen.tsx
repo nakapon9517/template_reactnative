@@ -1,24 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ImageSourcePropType,
-  SafeAreaView,
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-  Platform,
-  Button,
-  Image,
-  Alert,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, Platform, Alert } from 'react-native';
 // import {Text} from 'react-native-elements'
 import { Color } from '@/constants';
 import { useImage } from '@/hooks';
-import { Admob, GridList, Header } from '@/views/components';
-import { Item } from '@/entities';
+import { Admob, GridList, Header, AddButton } from '@/views/components';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
@@ -63,33 +48,6 @@ const GridScreen = (props: Props) => {
     }
   };
 
-  const AddButton = React.memo(() => {
-    const styles = StyleSheet.create({
-      add: {
-        width: 54,
-        height: 54,
-        position: 'absolute',
-        right: 8,
-        bottom: 68,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 99,
-        backgroundColor: Color.gray80,
-        zIndex: 99,
-      },
-      addText: {
-        fontSize: 32,
-        color: Color.gray5,
-      },
-    });
-
-    return (
-      <TouchableOpacity style={styles.add} onPress={pickImage}>
-        <Text style={styles.addText}>+</Text>
-      </TouchableOpacity>
-    );
-  });
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
@@ -107,7 +65,8 @@ const GridScreen = (props: Props) => {
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
       </View> */}
-      <AddButton />
+      {/* <AddButton /> */}
+      <AddButton onPress={pickImage} />
       <Admob />
     </SafeAreaView>
   );
