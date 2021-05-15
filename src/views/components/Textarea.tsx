@@ -77,11 +77,11 @@ const styles = StyleSheet.create({
   },
   textarea: {
     flex: 1,
+    height: Dimensions.get('window').height,
     marginVertical: 8,
     paddingHorizontal: 12,
     color: Color.gray5,
     fontSize: 16,
-    // backgroundColor: 'yellow',
   },
   inputFooter: {
     width: Dimensions.get('window').width,

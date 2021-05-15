@@ -1,27 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  FlatList,
-  ImageSourcePropType,
-  SafeAreaView,
   Dimensions,
-  ScrollView,
   TouchableOpacity,
-  Platform,
-  Button,
   ActivityIndicator,
 } from 'react-native';
-import { Image } from 'react-native-elements';
-import { Color } from '@/constants';
-import { useImage, useImageCategories } from '@/hooks';
-import { ListItem } from '@/views/components';
 import { Item } from '@/entities';
-import SectionList from 'react-native-tabs-section-list';
-import Constants from 'expo-constants';
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
 import { Card } from 'react-native-elements';
 
 interface Props {
@@ -38,10 +24,6 @@ const ImageItem = (props: Props) => {
         PlaceholderContent={<ActivityIndicator />}
         placeholderStyle={styles.indicator}
         resizeMode='stretch'
-        // borderTopLeftRadius={50}
-        // borderTopRightRadius={50}
-        // borderBottomLeftRadius={50}
-        // borderBottomRightRadius={50}
       />
     </TouchableOpacity>
   );

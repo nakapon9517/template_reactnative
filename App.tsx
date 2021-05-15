@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Button, View, StyleSheet } from 'react-native';
-import { Icon, Text } from 'react-native-elements';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
 import { GridScreen, CalcScreen, MemoScreen } from '@/views/screen';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
