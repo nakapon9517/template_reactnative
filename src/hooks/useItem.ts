@@ -1,10 +1,11 @@
-import { Item } from '@/entities';
+import { Item, Category } from '@/entities';
 import { Require } from '@/constants';
 import { useItemCategories } from '@/hooks';
 
-export const useItem = () => {
-  const categories = useItemCategories();
-
+interface Props {
+  categories: Category[];
+}
+export const useItem = (props: Props) => {
   const items: Item[] = [];
   const data = () => {
     for (let i = 0; i < 40; i++) {
@@ -13,7 +14,7 @@ export const useItem = () => {
         name: String('text' + i + '_'),
         count: i,
         price: i * 1010000,
-        category: (i % categories.length) + 1,
+        category: (i % props.categories.length) + 1,
         date: new Date(),
         uri: Require[i % Require.length],
       };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, Platform, Alert } from 'react-native';
 // import {Text} from 'react-native-elements'
 import { Color } from '@/constants';
-import { useImage } from '@/hooks';
+import { useImage, useImageCategories } from '@/hooks';
 import { Item } from '@/entities';
 import {
   Admob,
@@ -18,11 +18,9 @@ import * as Permissions from 'expo-permissions';
 import ImageEditor from '@react-native-community/image-editor';
 import { ListItem } from 'react-native-elements/dist/list/ListItem';
 
-interface Props {
-  test: string;
-}
-const GridScreen = (props: Props) => {
-  const { items } = useImage();
+const GridScreen = () => {
+  const categories = useImageCategories();
+  const { items } = useImage({ categories: categories });
   const [open, setOpen] = useState(false);
   const [selectedItem, setItem] = useState<Item>();
 

@@ -1,16 +1,14 @@
-import { Item } from '@/entities';
-import { Require } from '@/constants';
+import { Category } from '@/entities';
 
 export const useImageCategories = () => {
-  const categories: string[] = [
-    'First',
-    'Second',
-    'Third',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
+  const categories: Category[] = [
+    { id: 1, title: 'Oneaaaaaaaaaaaaaaaaaaaaaaaaa' },
+    { id: 2, title: 'Two' },
+    { id: 3, title: 'Three' },
+    { id: 4, title: 'Four' },
+    { id: 5, title: 'Five' },
+    { id: 6, title: 'Six' },
+    { id: 7, title: 'Seven' },
   ];
-
   return categories;
 };

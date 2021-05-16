@@ -18,12 +18,9 @@ import {
 } from '@/views/components';
 import { Icon } from 'react-native-elements';
 
-interface Props {
-  test: string;
-}
-const CalcScreen = (props: Props) => {
-  const { items } = useItem();
-  const [categories] = useState(() => useItemCategories());
+const CalcScreen = () => {
+  const categories = useItemCategories();
+  const { items } = useItem({ categories: categories });
   const [open, setOpen] = useState(false);
   const [selectedItem, setItem] = useState<Item>();
 

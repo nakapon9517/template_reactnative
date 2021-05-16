@@ -7,11 +7,7 @@ import { Color } from '@/constants';
 import { Admob, MemoView, Header } from '@/views/components';
 import { Category } from '@/entities';
 
-interface Props {
-  test: string;
-}
-
-const MemoScreen = (props: Props) => {
+const MemoScreen = () => {
   const { memos } = useMemoList();
   const [category, setCategory] = useState<Category>();
 

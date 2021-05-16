@@ -177,7 +177,6 @@ export const GridInput = (props: Props) => {
                       />
                     )}
                     value={count}
-                    placeholder='aaa'
                     style={customPickerStyles}
                     onValueChange={(value) => setCount(value)}
                     items={pickNumbers}
