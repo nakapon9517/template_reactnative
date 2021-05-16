@@ -3,16 +3,28 @@ import { StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useMemoList } from '@/hooks';
 import { StatusBar } from 'expo-status-bar';
 import { Icon } from 'react-native-elements';
-import { Color } from '@/constants';
-import { Admob, MemoView, Header } from '@/views/components';
-import { Category } from '@/entities';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { Route, Color } from '@/constants';
+import { AddButton, Admob, MemoList, Header } from '@/views/components';
+import { Memo } from '@/entities';
 
-const MemoScreen = () => {
+type Props = {
+  navigation: StackNavigationProp<Route, 'Memo'>;
+  route: RouteProp<Route, 'Memo'>;
+};
+
+const MemoScreen = (props: Props) => {
   const { memos } = useMemoList();
-  const [category, setCategory] = useState<Category>();
+  const [selectedMemo, setMemo] = useState<Memo>();
 
-  const onClickList = (category: Category) => {
-    setCategory(category);
+  const onClickAddButton = () => {
+    setMemo(undefined);
+  };
+
+  const onClickList = (memo: Memo) => {
+    setMemo(memo);
+    props.navigation.navigate('MemoInput', { memo });
   };
 
   return (
@@ -21,10 +33,10 @@ const MemoScreen = () => {
       <Header
         title='メモ'
         LeftComponent={
-          category && (
+          selectedMemo && (
             <TouchableOpacity
               style={styles.icon}
-              onPress={() => setCategory(undefined)}
+              onPress={() => setMemo(undefined)}
             >
               <Icon
                 type='material'
@@ -36,7 +48,8 @@ const MemoScreen = () => {
           )
         }
       />
-      <MemoView memos={memos} category={category} onPressList={onClickList} />
+      <MemoList memos={memos} onPressList={onClickList} />
+      <AddButton onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>
   );

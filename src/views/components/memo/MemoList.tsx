@@ -5,7 +5,7 @@ import { MemoItem } from './item/MemoItem';
 
 interface Props {
   memos: Memo[];
-  onPressList: (category: Category) => void;
+  onPressList: (memo: Memo) => void;
 }
 
 const MemoList = (props: Props) => {

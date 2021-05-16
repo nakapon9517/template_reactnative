@@ -13,19 +13,18 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
-import { Category } from '@/entities';
 
 interface Props {
   text: string;
-  category: Category;
   onChangeText: (text: string) => void;
-  onChangeCategory: (category: Category) => void;
 }
 
 export const Textarea = React.memo((props: Props) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
+  const [text, setText] = useState<string>();
 
   useEffect(() => {
+    setText(props.text);
     Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
     return () => {
@@ -45,8 +44,9 @@ export const Textarea = React.memo((props: Props) => {
           <ScrollView>
             <TextInput
               multiline
-              value={props.text}
-              onChangeText={props.onChangeText}
+              value={text}
+              onChangeText={setText}
+              // onChangeText={props.onChangeText}
               style={styles.textarea}
               placeholder='入力...'
               placeholderTextColor={Color.gray70}
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   textarea: {
     flex: 1,
     height: Dimensions.get('screen').height,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    padding: 12,
+    marginTop: 8,
     color: Color.gray5,
     fontSize: 16,
   },

@@ -19,7 +19,7 @@ interface Props {
   open: boolean;
   setOpen: (_: boolean) => void;
 }
-export const GridInput = (props: Props) => {
+export const GridInputScreen = (props: Props) => {
   const noImage = require('@/assets/images/noImage_gray.png');
   const pickNumbers = Array(100)
     .fill(undefined)
@@ -28,7 +28,7 @@ export const GridInput = (props: Props) => {
     });
   const [image, setImage] = useState<string>();
   const [name, setName] = useState<string>();
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number>();
 
   useEffect(() => {
     if (props.item) {
@@ -164,6 +164,11 @@ export const GridInput = (props: Props) => {
               <View style={styles.countView}>
                 <View>
                   <RNPickerSelect
+                    items={pickNumbers}
+                    value={count}
+                    style={customPickerStyles}
+                    placeholder={{ label: 'Select...', value: undefined }}
+                    onValueChange={(value) => setCount(value)}
                     Icon={() => (
                       <Icon
                         type='material'
@@ -176,10 +181,6 @@ export const GridInput = (props: Props) => {
                         }}
                       />
                     )}
-                    value={count}
-                    style={customPickerStyles}
-                    onValueChange={(value) => setCount(value)}
-                    items={pickNumbers}
                   />
                 </View>
               </View>

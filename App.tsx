@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
-import { GridScreen, CalcScreen, MemoScreen } from '@/views/screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CalcNavigator, GridNavigator, MemoNavigator } from '@/navigators';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,8 +22,8 @@ export default function App() {
         }}
       >
         <Tab.Screen
-          name='Memo'
-          component={MemoScreen}
+          name='MemoTab'
+          component={MemoNavigator}
           options={{
             tabBarLabel: 'メモ',
             tabBarIcon: ({ color }) => (
@@ -37,8 +37,8 @@ export default function App() {
           }}
         />
         <Tab.Screen
-          name='Calc'
-          component={CalcScreen}
+          name='CalcTab'
+          component={CalcNavigator}
           options={{
             tabBarLabel: '計算',
             tabBarIcon: ({ color }) => (
@@ -47,8 +47,8 @@ export default function App() {
           }}
         />
         <Tab.Screen
-          name='Grid'
-          component={GridScreen}
+          name='GridTab'
+          component={GridNavigator}
           options={{
             tabBarLabel: 'カウント',
             tabBarIcon: ({ color }) => (

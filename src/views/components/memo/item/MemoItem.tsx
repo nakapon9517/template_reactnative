@@ -13,7 +13,7 @@ import { Icon } from 'react-native-elements';
 
 interface Props {
   memo: ListRenderItemInfo<Memo>;
-  onPressList: (category: Category) => void;
+  onPressList: (memo: Memo) => void;
 }
 
 export const MemoItem = React.memo((props: Props) => {
@@ -21,7 +21,7 @@ export const MemoItem = React.memo((props: Props) => {
     <TouchableOpacity
       key={props.memo.index}
       style={styles.list}
-      onPress={() => props.onPressList(props.memo.item.category)}
+      onPress={() => props.onPressList(props.memo.item)}
     >
       <Text style={styles.text} numberOfLines={2}>
         {props.memo.item.category.title}

@@ -14,7 +14,6 @@ import { Color } from '@/constants';
 import Modal from 'react-native-modal';
 import { Input, Icon } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface Props {
   item?: Item;
@@ -22,11 +21,11 @@ interface Props {
   open: boolean;
   setOpen: (_: boolean) => void;
 }
-export const CalcInput = (props: Props) => {
+export const CalcInputScreen = (props: Props) => {
   const pickNumbers = Array(101)
     .fill(undefined)
     .map((_, i) => {
-      return { label: String(i), value: i };
+      return { label: String(i), value: i, key: i };
     });
   const [category, setCategory] = useState<Category>();
   const [name, setName] = useState<string>();
@@ -119,9 +118,10 @@ export const CalcInput = (props: Props) => {
               <Text style={styles.category}>{props.category?.title}</Text>
             </View>
             <Input
+              value={name}
               label='Name'
               labelStyle={styles.label}
-              value={name}
+              placeholder='name here..'
               onChangeText={(text) => setName(text)}
               containerStyle={styles.input}
               inputStyle={styles.inputName}
@@ -131,6 +131,11 @@ export const CalcInput = (props: Props) => {
               <View style={styles.countView}>
                 <View>
                   <RNPickerSelect
+                    items={pickNumbers}
+                    value={count}
+                    style={customPickerStyles}
+                    placeholder={{ label: 'Select...', value: undefined }}
+                    onValueChange={(value) => setCount(value)}
                     Icon={() => (
                       <Icon
                         type='material'
@@ -143,18 +148,15 @@ export const CalcInput = (props: Props) => {
                         }}
                       />
                     )}
-                    value={count}
-                    style={customPickerStyles}
-                    onValueChange={(value) => setCount(value)}
-                    items={pickNumbers}
                   />
                 </View>
               </View>
             </View>
             <Input
+              value={price ? String(price) : undefined}
               label='Price'
               labelStyle={styles.label}
-              value={String(price)}
+              placeholder='100..'
               onChangeText={(text) => setPrice(Number(text))}
               containerStyle={styles.input}
               inputStyle={styles.inputName}

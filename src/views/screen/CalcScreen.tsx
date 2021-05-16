@@ -6,27 +6,34 @@ import {
   Keyboard,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Color } from '@/constants';
+import { Route, Color } from '@/constants';
 import { Item } from '@/entities';
 import { useItemCategories, useItem } from '@/hooks';
-import {
-  AddButton,
-  Admob,
-  CalcList,
-  Header,
-  CalcInput,
-} from '@/views/components';
+import { AddButton, Admob, CalcList, Header } from '@/views/components';
 import { Icon } from 'react-native-elements';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 
-const CalcScreen = () => {
+type Props = {
+  navigation: StackNavigationProp<Route, 'Calc'>;
+  route: RouteProp<Route, 'Calc'>;
+};
+
+const CalcScreen = (props: Props) => {
   const categories = useItemCategories();
   const { items } = useItem({ categories: categories });
   const [open, setOpen] = useState(false);
   const [selectedItem, setItem] = useState<Item>();
 
+  const onClickAddButton = () => {
+    setItem(undefined);
+    setOpen(true);
+  };
+
   const onClickItem = (item: Item) => {
     setItem(item);
     setOpen(true);
+    props.navigation.navigate('Grid', { item });
   };
 
   return (
@@ -48,8 +55,8 @@ const CalcScreen = () => {
         items={items}
         onClickItem={onClickItem}
       />
-      <AddButton onPress={() => console.log('aas')} />
-      <CalcInput
+      <AddButton onPress={onClickAddButton} />
+      {/* <CalcInput
         item={selectedItem}
         category={
           categories.filter(
@@ -58,7 +65,7 @@ const CalcScreen = () => {
         }
         open={open}
         setOpen={setOpen}
-      />
+      /> */}
       <Admob />
     </SafeAreaView>
   );
