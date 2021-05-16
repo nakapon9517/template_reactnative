@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Color } from '@/constants';
-import { Item } from '@/entities';
+import { Item, Category } from '@/entities';
 import { ListItem } from './item/ListItem';
 import SectionList from 'react-native-tabs-section-list';
 
 interface Props {
-  routes: string[];
   items: Item[];
+  categories: Category[];
+  onClickItem: (item: Item) => void;
 }
 export const CalcList = (props: Props) => {
   type TabProps = {
@@ -47,13 +48,13 @@ export const CalcList = (props: Props) => {
 
   const sections = useMemo(
     () =>
-      props.routes.map((route, index) => {
+      props.categories.map((category, index) => {
         return {
-          title: route,
-          data: props.items.filter((item) => item.category === index),
+          title: category.title,
+          data: props.items.filter((item) => item.category === index + 1),
         };
       }),
-    [props.routes, props.items]
+    [props.categories, props.items]
   );
 
   return (
@@ -84,7 +85,9 @@ export const CalcList = (props: Props) => {
           }}
         />
       )}
-      renderItem={({ item }) => <ListItem item={item} />}
+      renderItem={({ item }) => (
+        <ListItem item={item} onClickItem={props.onClickItem} />
+      )}
     />
   );
 };

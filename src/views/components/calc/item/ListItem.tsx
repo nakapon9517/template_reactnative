@@ -6,9 +6,10 @@ import {
   FlatList,
   ImageSourcePropType,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import { Color } from '@/constants';
-import { Item } from '@/entities';
+import { Item, Category } from '@/entities';
 import { dateSlash, price } from '@/utils';
 
 type FooterProps = {
@@ -18,13 +19,19 @@ type FooterProps = {
 interface Props {
   item?: Item;
   footerItem?: FooterProps;
+  onClickItem?: (item: Item) => void;
 }
 
 const ListItem = React.memo((props: Props) => {
   return (
     <>
       {props.item && (
-        <View style={styles.borderItem}>
+        <TouchableOpacity
+          style={styles.borderItem}
+          onPress={() =>
+            props.item && props.onClickItem && props.onClickItem(props.item)
+          }
+        >
           <View style={styles.titleView}>
             <Text style={styles.text}>{props.item.name}</Text>
           </View>
@@ -36,7 +43,7 @@ const ListItem = React.memo((props: Props) => {
               <Text style={styles.money}>{price(props.item.price)}</Text>
             )}
           </View>
-        </View>
+        </TouchableOpacity>
       )}
       {props.footerItem && (
         <View style={styles.borderFooterItem}>

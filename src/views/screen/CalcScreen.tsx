@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  Text,
-  View,
   SafeAreaView,
-  Dimensions,
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Color } from '@/constants';
+import { Item } from '@/entities';
 import { useItemCategories, useItem } from '@/hooks';
-import { AddButton, Admob, CalcList, Header } from '@/views/components';
+import {
+  AddButton,
+  Admob,
+  CalcList,
+  Header,
+  CalcInput,
+} from '@/views/components';
 import { Icon } from 'react-native-elements';
 
 interface Props {
@@ -19,7 +23,14 @@ interface Props {
 }
 const CalcScreen = (props: Props) => {
   const { items } = useItem();
-  const [routes] = useState(() => useItemCategories());
+  const [categories] = useState(() => useItemCategories());
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setItem] = useState<Item>();
+
+  const onClickItem = (item: Item) => {
+    setItem(item);
+    setOpen(true);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,8 +46,22 @@ const CalcScreen = (props: Props) => {
           </TouchableOpacity>
         }
       />
-      <CalcList routes={routes} items={items} />
+      <CalcList
+        categories={categories}
+        items={items}
+        onClickItem={onClickItem}
+      />
       <AddButton onPress={() => console.log('aas')} />
+      <CalcInput
+        item={selectedItem}
+        category={
+          categories.filter(
+            (category) => category.id === selectedItem?.category
+          )[0]
+        }
+        open={open}
+        setOpen={setOpen}
+      />
       <Admob />
     </SafeAreaView>
   );

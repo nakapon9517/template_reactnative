@@ -51,21 +51,6 @@ const GridScreen = (props: Props) => {
         ListHeader={<Header title='カウント' />}
         onPress={onClickItem}
       />
-      {/* <View
-        style={{
-          // display: 'none',
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: Color.gray20,
-        }}
-      >
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
-      </View> */}
-      {/* <AddButton /> */}
-      {/* <AddButton onPress={pickImage} /> */}
       <AddButton onPress={() => setOpen(true)} />
       <GridInput item={selectedItem} open={open} setOpen={setOpen} />
       <Admob />

@@ -3,6 +3,7 @@ export * from './Admob';
 export * from './Header';
 
 export * from './calc/CalcList';
+export * from './calc/CalcInput';
 
 export * from './grid/GridList';
 export * from './grid/GridInput';

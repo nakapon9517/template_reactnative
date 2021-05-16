@@ -8,7 +8,7 @@ const useMemoList = () => {
         text: 'text_' + i,
         update: new Date(),
         category: {
-          id: 'memo_' + String(i),
+          id: i,
           title: i % 3 === 0 ? 'category_' + String(i) : String(i),
         },
       };

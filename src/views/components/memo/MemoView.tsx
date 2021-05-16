@@ -20,7 +20,7 @@ export const MemoView = (props: Props) => {
     <>
       {props.category && memo ? (
         <Textarea
-          key={memo.category.id}
+          key={String(memo.category.id)}
           text={memo.text}
           category={memo.category}
           onChangeText={(text) => console.log(text)}

@@ -2,11 +2,15 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 
 /** Change -> ¥999,999 */
-export const price = (money: number): string => {
-  return new Intl.NumberFormat('ja-JP', {
-    style: 'currency',
-    currency: 'JPY',
-  }).format(money);
+export const price = (money: number | undefined): string | undefined => {
+  if (money) {
+    return new Intl.NumberFormat('ja-JP', {
+      style: 'currency',
+      currency: 'JPY',
+    }).format(money);
+  } else {
+    return undefined;
+  }
 };
 
 /** Change -> YYYY-MM-DD */

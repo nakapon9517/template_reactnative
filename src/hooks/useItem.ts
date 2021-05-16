@@ -11,9 +11,9 @@ export const useItem = () => {
       const item: Item = {
         id: `test_${i}`,
         name: String('text' + i + '_'),
-        count: i * 10,
+        count: i,
         price: i * 1010000,
-        category: i % categories.length,
+        category: (i % categories.length) + 1,
         date: new Date(),
         uri: Require[i % Require.length],
       };

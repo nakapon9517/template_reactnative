@@ -15,7 +15,7 @@ const MemoList = (props: Props) => {
       renderItem={(memo) => (
         <MemoItem memo={memo} onPressList={props.onPressList} />
       )}
-      keyExtractor={(memo) => memo.category.id}
+      keyExtractor={(memo) => String(memo.category.id)}
     />
   );
 };
