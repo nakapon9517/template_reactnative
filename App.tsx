@@ -42,7 +42,7 @@ export default function App() {
           options={{
             tabBarLabel: '計算',
             tabBarIcon: ({ color }) => (
-              <Icon type='material' name='calculate' color={color} size={32} />
+              <Icon type='material' name='calculate' color={color} size={28} />
             ),
           }}
         />
@@ -56,7 +56,7 @@ export default function App() {
                 type='fontisto'
                 name='nav-icon-grid-a'
                 color={color}
-                size={24}
+                size={22}
               />
             ),
           }}

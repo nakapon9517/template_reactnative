@@ -11,13 +11,13 @@ interface HeaderProps {
 export const Header = React.memo((props: HeaderProps) => {
   return (
     <View style={styles.view}>
-      <View style={styles.component}>
+      <View style={[styles.component, { alignItems: 'flex-start' }]}>
         {props.LeftComponent ? <>{props.LeftComponent}</> : <Text> </Text>}
       </View>
       <View style={styles.component}>
         <Text style={styles.text}>{props.title}</Text>
       </View>
-      <View style={styles.component}>
+      <View style={[styles.component, { alignItems: 'flex-end' }]}>
         {props.RightComponent ? <>{props.RightComponent}</> : <Text> </Text>}
       </View>
     </View>

@@ -6,4 +6,4 @@ export * from './calc/CalcList';
 
 export * from './grid/GridList';
 
-export * from './memo/MemoList';
+export * from './memo/MemoView';

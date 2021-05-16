@@ -20,7 +20,7 @@ interface Props {
   footerItem?: FooterProps;
 }
 
-const ListItem = (props: Props) => {
+const ListItem = React.memo((props: Props) => {
   return (
     <>
       {props.item && (
@@ -51,7 +51,7 @@ const ListItem = (props: Props) => {
       )}
     </>
   );
-};
+});
 
 const styles = StyleSheet.create({
   borderItem: {

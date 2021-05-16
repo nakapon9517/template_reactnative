@@ -14,7 +14,7 @@ interface Props {
   item: Item;
 }
 
-const ImageItem = (props: Props) => {
+const ImageItem = React.memo((props: Props) => {
   // const image = props.item.uri && require(props.item.uri);
   return (
     <TouchableOpacity style={styles.view}>
@@ -27,7 +27,7 @@ const ImageItem = (props: Props) => {
       />
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   view: {

@@ -1,45 +1,30 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Keyboard,
-  TouchableOpacity,
-  Dimensions,
-  SafeAreaView,
-} from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Input, Icon } from 'react-native-elements';
-import { Color } from '@/constants';
-import { Textarea } from './item/Textarea';
+import React from 'react';
+import { StyleSheet, FlatList } from 'react-native';
+import { Category, Memo } from '@/entities';
+import { MemoItem } from './item/MemoItem';
 
 interface Props {
-  memos: string[];
+  memos: Memo[];
+  onPressList: (category: Category) => void;
 }
 
 const MemoList = (props: Props) => {
-  const [text, setText] = useState('');
-
   return (
-    <>
-      {props.memos.map((_, i) => (
-        <Textarea key={i} text={text} onChangeText={(text) => setText(text)} />
-      ))}
-    </>
+    <FlatList
+      data={props.memos}
+      renderItem={(memo) => (
+        <MemoItem memo={memo} onPressList={props.onPressList} />
+      )}
+      keyExtractor={(memo) => memo.category.id}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  view: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Color.gray90,
-  },
-  icon: {
-    padding: 12,
-    marginRight: 4,
-    alignItems: 'flex-end',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
 

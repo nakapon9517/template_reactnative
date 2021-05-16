@@ -1,40 +1,46 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Keyboard,
-  TouchableOpacity,
-  Dimensions,
-  SafeAreaView,
-} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { useMemoList } from '@/hooks';
 import { StatusBar } from 'expo-status-bar';
-import { Input, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
-import { Admob, MemoList, Header } from '@/views/components';
+import { Admob, MemoView, Header } from '@/views/components';
+import { Category } from '@/entities';
 
 interface Props {
   test: string;
 }
 
 const MemoScreen = (props: Props) => {
-  const [text, setText] = useState('');
+  const { memos } = useMemoList();
+  const [category, setCategory] = useState<Category>();
+
+  const onClickList = (category: Category) => {
+    setCategory(category);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
       <Header
         title='メモ'
-        RightComponent={
-          <TouchableOpacity
-            style={styles.icon}
-            onPress={() => Keyboard.dismiss()}
-          >
-            <Icon type='material' name='list' color={Color.gray5} size={24} />
-          </TouchableOpacity>
+        LeftComponent={
+          category && (
+            <TouchableOpacity
+              style={styles.icon}
+              onPress={() => setCategory(undefined)}
+            >
+              <Icon
+                type='material'
+                name='chevron-left'
+                color={Color.gray5}
+                size={24}
+              />
+            </TouchableOpacity>
+          )
         }
       />
-      <MemoList memos={['']} />
+      <MemoView memos={memos} category={category} onPressList={onClickList} />
       <Admob />
     </SafeAreaView>
   );

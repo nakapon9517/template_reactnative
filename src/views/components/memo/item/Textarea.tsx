@@ -19,7 +19,7 @@ interface Props {
   onChangeText: (text: string) => void;
 }
 
-export const Textarea = (props: Props) => {
+export const Textarea = React.memo((props: Props) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const Textarea = (props: Props) => {
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   input: {
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
   },
   textarea: {
     flex: 1,
-    height: Dimensions.get('window').height,
-    marginVertical: 8,
+    height: Dimensions.get('screen').height,
+    paddingVertical: 8,
     paddingHorizontal: 12,
     color: Color.gray5,
     fontSize: 16,
