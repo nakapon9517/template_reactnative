@@ -1,11 +1,18 @@
 import React from 'react';
-import { StyleSheet, FlatList, Platform, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  Platform,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { Item } from '@/entities';
 import { ImageItem } from './item/ImageItem';
 
 interface Props {
   items: Item[];
   ListHeader: React.ReactNode;
+  onPress: (item: Item) => void;
 }
 export const GridList = React.memo((props: Props) => {
   const width = Dimensions.get('screen').width;
@@ -20,7 +27,9 @@ export const GridList = React.memo((props: Props) => {
       columnWrapperStyle={styles.column}
       ListHeaderComponent={<>{props.ListHeader}</>}
       stickyHeaderIndices={[0]}
-      renderItem={({ item }) => <ImageItem item={item} width={width / 4} />}
+      renderItem={({ item }) => (
+        <ImageItem item={item} width={width / 4} onPress={props.onPress} />
+      )}
     />
   );
 });

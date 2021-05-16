@@ -13,12 +13,15 @@ import { Card } from 'react-native-elements';
 interface Props {
   item: Item;
   width: number;
+  onPress: (item: Item) => void;
 }
 
 const ImageItem = React.memo((props: Props) => {
-  // const image = props.item.uri && require(props.item.uri);
   return (
-    <TouchableOpacity style={styles.view}>
+    <TouchableOpacity
+      style={styles.view}
+      onPress={() => props.onPress(props.item)}
+    >
       <Card.Image
         source={{ uri: props.item.uri, cache: 'force-cache' }}
         containerStyle={[

@@ -9,12 +9,10 @@ import {
 } from 'react-native';
 import { Item } from '@/entities';
 import { Color } from '@/constants';
-import { ImageItem } from './item/ImageItem';
 import Modal from 'react-native-modal';
 import * as ImagePicker from 'expo-image-picker';
-import { Input, Image, Icon, Overlay } from 'react-native-elements';
+import { Input, Image, Icon } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
-import { color } from 'react-native-elements/dist/helpers';
 
 interface Props {
   item?: Item;
@@ -29,22 +27,30 @@ export const GridInput = (props: Props) => {
       return { label: String(i), value: i };
     });
   const [image, setImage] = useState<string>();
+  const [name, setName] = useState<string>();
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (props.item) {
+      setImage(props.item.uri);
+      setName(props.item.name);
+      setCount(props.item.count);
+    }
+  }, [props.item]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      // allowsMultipleSelection: true,
       aspect: [1, 1],
       quality: 0,
       base64: true,
     });
 
     if (!result.cancelled) {
-      console.log(result.base64);
+      // console.log(result.base64);
       // setImage(result.base64);
-      console.log(result.uri);
+      // console.log(result.uri);
       setImage(result.uri);
     }
   };
@@ -83,12 +89,25 @@ export const GridInput = (props: Props) => {
           <View style={styles.componentLeft}>
             <Icon type='material' name='close' size={24} color={Color.gray5} />
           </View>
-          <View style={styles.componentRight}>
+          <TouchableOpacity style={styles.componentRight} onPress={onUpdate}>
             <Icon type='material' name='check' size={24} color={Color.gray5} />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
+  };
+
+  const onUpdate = () => {
+    // データ更新処理
+    console.log('aaaaa');
+    onClose();
+  };
+
+  const onClose = () => {
+    setImage(undefined);
+    setName(undefined);
+    setCount(0);
+    props.setOpen(false);
   };
 
   return (
@@ -97,8 +116,8 @@ export const GridInput = (props: Props) => {
         style={styles.modalWrapper}
         isVisible={props.open}
         backdropColor={Color.gray100}
-        onBackdropPress={() => props.setOpen(false)}
-        onSwipeComplete={() => props.setOpen(false)}
+        onBackdropPress={onClose}
+        onSwipeComplete={onClose}
         swipeDirection='down'
         swipeThreshold={Dimensions.get('screen').height / 2}
       >
@@ -135,7 +154,8 @@ export const GridInput = (props: Props) => {
             <Input
               label='Name'
               labelStyle={styles.label}
-              placeholder='this...'
+              value={name}
+              onChangeText={(text) => setName(text)}
               containerStyle={styles.input}
               inputStyle={styles.inputName}
             />
@@ -153,13 +173,13 @@ export const GridInput = (props: Props) => {
                         style={{
                           height: 40,
                           justifyContent: 'center',
-                          // backgroundColor: Color.gray10,
                         }}
                       />
                     )}
+                    value={count}
                     placeholder='aaa'
                     style={customPickerStyles}
-                    onValueChange={(value) => console.log(value)}
+                    onValueChange={(value) => setCount(value)}
                     items={pickNumbers}
                   />
                 </View>

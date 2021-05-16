@@ -3,6 +3,7 @@ import { StyleSheet, SafeAreaView, Platform, Alert } from 'react-native';
 // import {Text} from 'react-native-elements'
 import { Color } from '@/constants';
 import { useImage } from '@/hooks';
+import { Item } from '@/entities';
 import {
   Admob,
   GridList,
@@ -22,8 +23,8 @@ interface Props {
 }
 const GridScreen = (props: Props) => {
   const { items } = useImage();
-  const [image, setImage] = useState<string>();
   const [open, setOpen] = useState(false);
+  const [selectedItem, setItem] = useState<Item>();
 
   useEffect(() => {
     (async () => {
@@ -37,28 +38,19 @@ const GridScreen = (props: Props) => {
     })();
   }, []);
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      // allowsMultipleSelection: true,
-      aspect: [1, 1],
-      quality: 0,
-      base64: true,
-    });
-
-    if (!result.cancelled) {
-      console.log(result.base64);
-      // setImage(result.base64);
-      console.log(result.uri);
-      setImage(result.uri);
-    }
+  const onClickItem = (item: Item) => {
+    setItem(item);
+    setOpen(true);
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
-      <GridList items={items} ListHeader={<Header title='カウント' />} />
+      <GridList
+        items={items}
+        ListHeader={<Header title='カウント' />}
+        onPress={onClickItem}
+      />
       {/* <View
         style={{
           // display: 'none',
@@ -75,7 +67,7 @@ const GridScreen = (props: Props) => {
       {/* <AddButton /> */}
       {/* <AddButton onPress={pickImage} /> */}
       <AddButton onPress={() => setOpen(true)} />
-      <GridInput open={open} setOpen={setOpen} />
+      <GridInput item={selectedItem} open={open} setOpen={setOpen} />
       <Admob />
     </SafeAreaView>
   );
