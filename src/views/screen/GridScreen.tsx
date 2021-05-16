@@ -3,7 +3,13 @@ import { StyleSheet, SafeAreaView, Platform, Alert } from 'react-native';
 // import {Text} from 'react-native-elements'
 import { Color } from '@/constants';
 import { useImage } from '@/hooks';
-import { Admob, GridList, Header, AddButton } from '@/views/components';
+import {
+  Admob,
+  GridList,
+  Header,
+  AddButton,
+  GridInput,
+} from '@/views/components';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
@@ -17,6 +23,7 @@ interface Props {
 const GridScreen = (props: Props) => {
   const { items } = useImage();
   const [image, setImage] = useState<string>();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -66,7 +73,9 @@ const GridScreen = (props: Props) => {
         )}
       </View> */}
       {/* <AddButton /> */}
-      <AddButton onPress={pickImage} />
+      {/* <AddButton onPress={pickImage} /> */}
+      <AddButton onPress={() => setOpen(true)} />
+      <GridInput open={open} setOpen={setOpen} />
       <Admob />
     </SafeAreaView>
   );
@@ -75,7 +84,7 @@ const GridScreen = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.gray90,
+    backgroundColor: Color.gray100,
   },
 });
 

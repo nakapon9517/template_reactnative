@@ -12,6 +12,7 @@ import { Card } from 'react-native-elements';
 
 interface Props {
   item: Item;
+  width: number;
 }
 
 const ImageItem = React.memo((props: Props) => {
@@ -20,10 +21,13 @@ const ImageItem = React.memo((props: Props) => {
     <TouchableOpacity style={styles.view}>
       <Card.Image
         source={{ uri: props.item.uri, cache: 'force-cache' }}
-        containerStyle={{ width: 100, height: 100, borderRadius: 50 }}
+        containerStyle={[
+          styles.image,
+          { width: props.width, height: props.width },
+        ]}
         PlaceholderContent={<ActivityIndicator />}
         placeholderStyle={styles.indicator}
-        resizeMode='stretch'
+        resizeMode='cover'
       />
     </TouchableOpacity>
   );
@@ -32,16 +36,20 @@ const ImageItem = React.memo((props: Props) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    padding: 12,
-    width: Dimensions.get('window').width / 3,
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 8,
   },
   indicator: {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     backgroundColor: '#2A3132',
+  },
+  image: {
+    maxWidth: 240,
+    maxHeight: 240,
+    borderRadius: 999,
   },
 });
 

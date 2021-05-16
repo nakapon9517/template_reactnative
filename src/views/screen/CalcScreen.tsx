@@ -45,7 +45,7 @@ const CalcScreen = (props: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.gray90,
+    backgroundColor: Color.gray100,
   },
   icon: {
     padding: 8,

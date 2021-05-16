@@ -17,8 +17,8 @@ export default function App() {
           showLabel: false,
           inactiveTintColor: Color.gray50,
           activeTintColor: Color.gray5,
-          inactiveBackgroundColor: Color.gray90,
-          activeBackgroundColor: Color.gray90,
+          inactiveBackgroundColor: Color.gray100,
+          activeBackgroundColor: Color.gray100,
         }}
       >
         <Tab.Screen

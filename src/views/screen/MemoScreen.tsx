@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.gray90,
+    backgroundColor: Color.gray100,
   },
   icon: {
     padding: 8,

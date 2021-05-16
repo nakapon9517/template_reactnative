@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: Color.gray80,
-    backgroundColor: Color.gray90,
+    backgroundColor: Color.gray100,
   },
   component: {
     width: Dimensions.get('window').width / 3,

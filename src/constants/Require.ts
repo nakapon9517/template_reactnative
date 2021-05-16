@@ -4,4 +4,5 @@ export const Require = [
   'file:///var/mobile/Containers/Data/Application/E8C6D335-452C-49FB-9DFA-B4196CE57845/Library/Caches/ExponentExperienceData/%2540nakapon%252Fmeemoo/ImagePicker/251872EE-D20D-4457-A09F-92128014E3B9.jpg',
   // 'https://source.unsplash.com/random',
   // '@/assets/images/meemoo1_2.png',
+  // '@/assets/images/nonImage.png',
 ];

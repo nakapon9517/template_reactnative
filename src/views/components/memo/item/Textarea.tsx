@@ -13,10 +13,13 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
+import { Category } from '@/entities';
 
 interface Props {
   text: string;
+  category: Category;
   onChangeText: (text: string) => void;
+  onChangeCategory: (category: Category) => void;
 }
 
 export const Textarea = React.memo((props: Props) => {
