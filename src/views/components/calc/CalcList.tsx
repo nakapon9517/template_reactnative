@@ -51,7 +51,7 @@ export const CalcList = (props: Props) => {
       props.categories.map((category, index) => {
         return {
           title: category.title,
-          data: props.items.filter((item) => item.category === index + 1),
+          data: props.items.filter((item) => item.category === index),
         };
       }),
     [props.categories, props.items]

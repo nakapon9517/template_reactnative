@@ -2,24 +2,28 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
-  Dimensions,
+  SafeAreaView,
   Text,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
 import { Item } from '@/entities';
-import { Color } from '@/constants';
+import { Route, Color } from '@/constants';
+import { Header } from '@/views/components';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import * as ImagePicker from 'expo-image-picker';
 import { Input, Image, Icon } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 
 interface Props {
-  item?: Item;
-  open: boolean;
-  setOpen: (_: boolean) => void;
+  navigation: StackNavigationProp<Route, 'GridInput'>;
+  route: RouteProp<Route, 'GridInput'>;
 }
+
 export const GridInputScreen = (props: Props) => {
+  const { item } = props.route.params;
   const noImage = require('@/assets/images/noImage_gray.png');
   const pickNumbers = Array(100)
     .fill(undefined)
@@ -31,12 +35,12 @@ export const GridInputScreen = (props: Props) => {
   const [count, setCount] = useState<number>();
 
   useEffect(() => {
-    if (props.item) {
-      setImage(props.item.uri);
-      setName(props.item.name);
-      setCount(props.item.count);
+    if (item) {
+      setImage(item.uri);
+      setName(item.name);
+      setCount(item.count);
     }
-  }, [props.item]);
+  }, [item]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -55,48 +59,6 @@ export const GridInputScreen = (props: Props) => {
     }
   };
 
-  const Header = () => {
-    const styles = StyleSheet.create({
-      header: {
-        flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'space-between',
-      },
-      buttons: {
-        height: 48,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: Color.gray50,
-        paddingHorizontal: 8,
-      },
-      componentLeft: {
-        flex: 1,
-        alignItems: 'flex-start',
-      },
-      componentCenter: {
-        flex: 1,
-        alignItems: 'center',
-      },
-      componentRight: {
-        flex: 1,
-        alignItems: 'flex-end',
-      },
-    });
-    return (
-      <View style={styles.header}>
-        <View style={styles.buttons}>
-          <View style={styles.componentLeft}>
-            <Icon type='material' name='close' size={24} color={Color.gray5} />
-          </View>
-          <TouchableOpacity style={styles.componentRight} onPress={onUpdate}>
-            <Icon type='material' name='check' size={24} color={Color.gray5} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-
   const onUpdate = () => {
     // データ更新処理
     console.log('aaaaa');
@@ -107,110 +69,89 @@ export const GridInputScreen = (props: Props) => {
     setImage(undefined);
     setName(undefined);
     setCount(0);
-    props.setOpen(false);
+    props.navigation.goBack();
   };
 
   return (
-    <View style={styles.view}>
-      <Modal
-        style={styles.modalWrapper}
-        isVisible={props.open}
-        backdropColor={Color.gray100}
-        onBackdropPress={onClose}
-        onSwipeComplete={onClose}
-        swipeDirection='down'
-        swipeThreshold={Dimensions.get('screen').height / 2}
-      >
-        <View style={styles.modal}>
-          <Header />
-          <View style={styles.body}>
-            <TouchableOpacity
-              style={[
-                styles.imageWrapper,
-                Boolean(image) && { borderWidth: 0 },
-              ]}
-              onPress={pickImage}
-            >
-              <View>
-                <Image
-                  source={image ? { uri: image } : noImage}
-                  style={styles.image}
-                  containerStyle={styles.image}
-                  PlaceholderContent={<ActivityIndicator />}
-                />
-                {image && (
-                  <View style={styles.badge}>
-                    <Icon
-                      type='material'
-                      name='close'
-                      size={16}
-                      color={Color.gray5}
-                      onPress={() => setImage(undefined)}
-                    />
-                  </View>
-                )}
-              </View>
-            </TouchableOpacity>
-            <Input
-              label='Name'
-              labelStyle={styles.label}
-              value={name}
-              onChangeText={(text) => setName(text)}
-              containerStyle={styles.input}
-              inputStyle={styles.inputName}
+    <SafeAreaView style={styles.view}>
+      <Header
+        // title={title}
+        goBack
+        onClickBack={onClose}
+      />
+      <View style={styles.body}>
+        <TouchableOpacity
+          style={[styles.imageWrapper, Boolean(image) && { borderWidth: 0 }]}
+          onPress={pickImage}
+        >
+          <View>
+            <Image
+              source={image ? { uri: image } : noImage}
+              style={styles.image}
+              containerStyle={styles.image}
+              PlaceholderContent={<ActivityIndicator />}
             />
-            <View style={styles.input}>
-              <Text style={styles.label}>Count</Text>
-              <View style={styles.countView}>
-                <View>
-                  <RNPickerSelect
-                    items={pickNumbers}
-                    value={count}
-                    style={customPickerStyles}
-                    placeholder={{ label: 'Select...', value: undefined }}
-                    onValueChange={(value) => setCount(value)}
-                    Icon={() => (
-                      <Icon
-                        type='material'
-                        name='keyboard-arrow-down'
-                        size={24}
-                        color={Color.gray5}
-                        style={{
-                          height: 40,
-                          justifyContent: 'center',
-                        }}
-                      />
-                    )}
-                  />
-                </View>
+            {image && (
+              <View style={styles.badge}>
+                <Icon
+                  type='material'
+                  name='close'
+                  size={16}
+                  color={Color.gray5}
+                  onPress={() => setImage(undefined)}
+                />
               </View>
+            )}
+          </View>
+        </TouchableOpacity>
+        <Input
+          label='Name'
+          labelStyle={styles.label}
+          value={name}
+          onChangeText={(text) => setName(text)}
+          containerStyle={styles.input}
+          inputStyle={styles.inputName}
+        />
+        <View style={styles.input}>
+          <Text style={styles.label}>Count</Text>
+          <View style={styles.countView}>
+            <View>
+              <RNPickerSelect
+                items={pickNumbers}
+                value={count}
+                style={customPickerStyles}
+                placeholder={{ label: 'Select...', value: undefined }}
+                onValueChange={(value) => setCount(value)}
+                Icon={() => (
+                  <Icon
+                    type='material'
+                    name='keyboard-arrow-down'
+                    size={24}
+                    color={Color.gray5}
+                    style={{
+                      height: 40,
+                      justifyContent: 'center',
+                    }}
+                  />
+                )}
+              />
             </View>
           </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   view: {
-    // flex: 1,
-  },
-  modalWrapper: {
-    // flex: 1,
-    width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').height,
-    marginTop: 72,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 0,
-    paddingLeft: 0,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    backgroundColor: Color.gray80,
-  },
-  modal: {
     flex: 1,
+    backgroundColor: Color.gray100,
+  },
+  icon: {
+    padding: 8,
+    marginRight: 4,
+    alignItems: 'flex-end',
   },
   body: {
     flex: 10,
@@ -218,7 +159,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageWrapper: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,

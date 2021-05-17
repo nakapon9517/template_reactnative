@@ -1,10 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { Color } from '@/constants';
+import { Icon } from 'react-native-elements';
 
 interface HeaderProps {
   title?: string;
+  goBack?: boolean;
+  onClickBack?: () => void;
   LeftComponent?: React.ReactNode;
+  CenterComponent?: React.ReactNode;
   RightComponent?: React.ReactNode;
 }
 
@@ -12,10 +22,23 @@ export const Header = React.memo((props: HeaderProps) => {
   return (
     <View style={styles.view}>
       <View style={[styles.component, { alignItems: 'flex-start' }]}>
-        {props.LeftComponent ? <>{props.LeftComponent}</> : <Text> </Text>}
+        {/* {props.LeftComponent ? <>{props.LeftComponent}</> : <Text> </Text>} */}
+        {props.goBack && (
+          <TouchableOpacity style={styles.icon} onPress={props.onClickBack}>
+            <Icon
+              type='material'
+              name='chevron-left'
+              color={Color.gray5}
+              size={24}
+            />
+          </TouchableOpacity>
+        )}
       </View>
-      <View style={styles.component}>
+      <View style={[styles.component, { flexDirection: 'row' }]}>
         <Text style={styles.text}>{props.title}</Text>
+        {props.CenterComponent && (
+          <View style={styles.icon}>{props.CenterComponent}</View>
+        )}
       </View>
       <View style={[styles.component, { alignItems: 'flex-end' }]}>
         {props.RightComponent ? <>{props.RightComponent}</> : <Text> </Text>}
@@ -38,6 +61,15 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 3,
     height: 40,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  back: {
+    padding: 8,
+    marginRight: 4,
+    alignItems: 'flex-end',
+  },
+  icon: {
+    marginHorizontal: 8,
   },
   text: {
     color: Color.gray5,

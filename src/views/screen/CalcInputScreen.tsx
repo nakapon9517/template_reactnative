@@ -8,80 +8,44 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  SafeAreaView,
 } from 'react-native';
 import { Item, Category } from '@/entities';
-import { Color } from '@/constants';
+import { Route, Color } from '@/constants';
+import { Header } from '@/views/components';
+import { useItemCategories } from '@/hooks';
 import Modal from 'react-native-modal';
 import { Input, Icon } from 'react-native-elements';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 
 interface Props {
-  item?: Item;
-  category?: Category;
-  open: boolean;
-  setOpen: (_: boolean) => void;
+  navigation: StackNavigationProp<Route, 'CalcInput'>;
+  route: RouteProp<Route, 'CalcInput'>;
 }
+
 export const CalcInputScreen = (props: Props) => {
+  const { item } = props.route.params;
+  const categories = useItemCategories();
+  const [category, setCategory] = useState<Category>();
+  const [name, setName] = useState<string>();
+  const [count, setCount] = useState<number>();
+  const [price, setPrice] = useState<number>();
   const pickNumbers = Array(101)
     .fill(undefined)
     .map((_, i) => {
       return { label: String(i), value: i, key: i };
     });
-  const [category, setCategory] = useState<Category>();
-  const [name, setName] = useState<string>();
-  const [count, setCount] = useState<number>();
-  const [price, setPrice] = useState<number>();
 
   useEffect(() => {
-    if (props.item) {
-      setCategory(props.category);
-      setName(props.item.name);
-      setCount(props.item.count);
-      setPrice(props.item.price);
+    if (item) {
+      setCategory(categories[item.category]);
+      setName(item.name);
+      setCount(item.count);
+      setPrice(item.price);
     }
-  }, [props.item]);
-
-  const Header = () => {
-    const styles = StyleSheet.create({
-      header: {
-        flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'space-between',
-      },
-      buttons: {
-        height: 48,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: Color.gray50,
-        paddingHorizontal: 8,
-      },
-      componentLeft: {
-        flex: 1,
-        alignItems: 'flex-start',
-      },
-      componentCenter: {
-        flex: 1,
-        alignItems: 'center',
-      },
-      componentRight: {
-        flex: 1,
-        alignItems: 'flex-end',
-      },
-    });
-    return (
-      <View style={styles.header}>
-        <View style={styles.buttons}>
-          <View style={styles.componentLeft}>
-            <Icon type='material' name='close' size={24} color={Color.gray5} />
-          </View>
-          <TouchableOpacity style={styles.componentRight} onPress={onUpdate}>
-            <Icon type='material' name='check' size={24} color={Color.gray5} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
+  }, [item]);
 
   const onUpdate = () => {
     // データ更新処理
@@ -93,97 +57,73 @@ export const CalcInputScreen = (props: Props) => {
     setCategory(undefined);
     setName(undefined);
     setCount(0);
-    props.setOpen(false);
+    props.navigation.goBack();
   };
 
   return (
-    <View style={styles.view}>
-      <Modal
-        style={styles.modalWrapper}
-        isVisible={props.open}
-        backdropColor={Color.gray100}
-        onBackdropPress={onClose}
-        onSwipeComplete={onClose}
-        swipeDirection='down'
-        swipeThreshold={Dimensions.get('screen').height / 2}
+    <SafeAreaView style={styles.view}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.modal}
+        keyboardVerticalOffset={300}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.modal}
-          keyboardVerticalOffset={300}
-        >
-          <Header />
-          <View style={styles.body}>
-            <View>
-              <Text style={styles.category}>{props.category?.title}</Text>
-            </View>
-            <Input
-              value={name}
-              label='Name'
-              labelStyle={styles.label}
-              placeholder='name here..'
-              onChangeText={(text) => setName(text)}
-              containerStyle={styles.input}
-              inputStyle={styles.inputName}
-            />
-            <View style={styles.countWrapper}>
-              <Text style={styles.label}>Count(Max:100)</Text>
-              <View style={styles.countView}>
-                <View>
-                  <RNPickerSelect
-                    items={pickNumbers}
-                    value={count}
-                    style={customPickerStyles}
-                    placeholder={{ label: 'Select...', value: undefined }}
-                    onValueChange={(value) => setCount(value)}
-                    Icon={() => (
-                      <Icon
-                        type='material'
-                        name='keyboard-arrow-down'
-                        size={24}
-                        color={Color.gray5}
-                        style={{
-                          height: 40,
-                          justifyContent: 'center',
-                        }}
-                      />
-                    )}
-                  />
-                </View>
+        <Header title={category?.title} goBack onClickBack={onClose} />
+        <View style={styles.body}>
+          <Input
+            value={name}
+            label='Name'
+            labelStyle={styles.label}
+            placeholder='name here..'
+            onChangeText={(text) => setName(text)}
+            containerStyle={styles.input}
+            inputStyle={styles.inputName}
+          />
+          <View style={styles.countWrapper}>
+            <Text style={styles.label}>Count(Max:100)</Text>
+            <View style={styles.countView}>
+              <View>
+                <RNPickerSelect
+                  items={pickNumbers}
+                  value={count}
+                  style={customPickerStyles}
+                  placeholder={{ label: 'Select...', value: undefined }}
+                  onValueChange={(value) => setCount(value)}
+                  Icon={() => (
+                    <Icon
+                      type='material'
+                      name='keyboard-arrow-down'
+                      size={24}
+                      color={Color.gray5}
+                      style={{
+                        height: 40,
+                        justifyContent: 'center',
+                      }}
+                    />
+                  )}
+                />
               </View>
             </View>
-            <Input
-              value={price ? String(price) : undefined}
-              label='Price'
-              labelStyle={styles.label}
-              placeholder='100..'
-              onChangeText={(text) => setPrice(Number(text))}
-              containerStyle={styles.input}
-              inputStyle={styles.inputName}
-              keyboardType='number-pad'
-            />
           </View>
-        </KeyboardAvoidingView>
-      </Modal>
-    </View>
+          <Input
+            value={price ? String(price) : undefined}
+            label='Price'
+            labelStyle={styles.label}
+            placeholder='100..'
+            onChangeText={(text) => setPrice(Number(text))}
+            containerStyle={styles.input}
+            inputStyle={styles.inputName}
+            keyboardType='number-pad'
+          />
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   view: {
-    // flex: 1,
-  },
-  modalWrapper: {
-    width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').height,
-    marginTop: 72,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 0,
-    paddingLeft: 0,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    backgroundColor: Color.gray80,
+    flex: 1,
+    backgroundColor: Color.gray100,
   },
   modal: {
     flex: 1,
@@ -192,6 +132,11 @@ const styles = StyleSheet.create({
     flex: 10,
     paddingTop: 24,
     alignItems: 'center',
+  },
+  icon: {
+    padding: 8,
+    marginRight: 4,
+    alignItems: 'flex-end',
   },
   category: {
     fontSize: 32,

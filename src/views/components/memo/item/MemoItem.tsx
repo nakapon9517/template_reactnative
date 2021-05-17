@@ -8,7 +8,7 @@ import {
   ListRenderItemInfo,
 } from 'react-native';
 import { Color } from '@/constants';
-import { Category, Memo } from '@/entities';
+import { Memo } from '@/entities';
 import { Icon } from 'react-native-elements';
 
 interface Props {
@@ -24,7 +24,7 @@ export const MemoItem = React.memo((props: Props) => {
       onPress={() => props.onPressList(props.memo.item)}
     >
       <Text style={styles.text} numberOfLines={2}>
-        {props.memo.item.category.title}
+        {props.memo.item.title}
       </Text>
       <Text style={styles.category} numberOfLines={1}>
         {props.memo.item.text}
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: Color.gray80,
+    borderBottomWidth: 0.4,
+    borderBottomColor: Color.gray90,
   },
   text: {
     width: '60%',

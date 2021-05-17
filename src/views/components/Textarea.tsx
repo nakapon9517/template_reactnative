@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     width: '100%',
+    zIndex: 2,
   },
   textarea: {
     flex: 1,

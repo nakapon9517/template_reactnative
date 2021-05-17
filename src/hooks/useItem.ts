@@ -13,8 +13,8 @@ export const useItem = (props: Props) => {
         id: `test_${i}`,
         name: String('text' + i + '_'),
         count: i,
-        price: i * 1010000,
-        category: (i % props.categories.length) + 1,
+        price: i * 100000 + i,
+        category: i % props.categories.length,
         date: new Date(),
         uri: Require[i % Require.length],
       };

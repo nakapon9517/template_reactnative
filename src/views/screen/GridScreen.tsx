@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, SafeAreaView, Platform, Alert } from 'react-native';
 import { Route, Color } from '@/constants';
 import { useImage, useImageCategories } from '@/hooks';
@@ -6,12 +6,10 @@ import { Item } from '@/entities';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { Admob, GridList, Header, AddButton } from '@/views/components';
-import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import ImageEditor from '@react-native-community/image-editor';
-import { ListItem } from 'react-native-elements/dist/list/ListItem';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Grid'>;
@@ -21,8 +19,6 @@ type Props = {
 const GridScreen = (props: Props) => {
   const categories = useImageCategories();
   const { items } = useImage({ categories: categories });
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setItem] = useState<Item>();
 
   useEffect(() => {
     (async () => {
@@ -37,14 +33,11 @@ const GridScreen = (props: Props) => {
   }, []);
 
   const onClickAddButton = () => {
-    setItem(undefined);
-    setOpen(true);
+    props.navigation.navigate('GridInput', {});
   };
 
   const onClickItem = (item: Item) => {
-    setItem(item);
-    setOpen(true);
-    props.navigation.navigate('Grid', { item });
+    props.navigation.navigate('GridInput', { item });
   };
 
   return (
@@ -56,7 +49,6 @@ const GridScreen = (props: Props) => {
         onPress={onClickItem}
       />
       <AddButton onPress={onClickAddButton} />
-      {/* <GridInput item={selectedItem} open={open} setOpen={setOpen} /> */}
       <Admob />
     </SafeAreaView>
   );

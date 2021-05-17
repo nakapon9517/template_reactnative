@@ -22,18 +22,13 @@ type Props = {
 const CalcScreen = (props: Props) => {
   const categories = useItemCategories();
   const { items } = useItem({ categories: categories });
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setItem] = useState<Item>();
 
   const onClickAddButton = () => {
-    setItem(undefined);
-    setOpen(true);
+    props.navigation.navigate('CalcInput', {});
   };
 
   const onClickItem = (item: Item) => {
-    setItem(item);
-    setOpen(true);
-    props.navigation.navigate('Grid', { item });
+    props.navigation.navigate('CalcInput', { item });
   };
 
   return (
@@ -56,16 +51,6 @@ const CalcScreen = (props: Props) => {
         onClickItem={onClickItem}
       />
       <AddButton onPress={onClickAddButton} />
-      {/* <CalcInput
-        item={selectedItem}
-        category={
-          categories.filter(
-            (category) => category.id === selectedItem?.category
-          )[0]
-        }
-        open={open}
-        setOpen={setOpen}
-      /> */}
       <Admob />
     </SafeAreaView>
   );
