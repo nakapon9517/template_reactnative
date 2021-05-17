@@ -2,22 +2,18 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
-  Dimensions,
   Text,
   Platform,
-  TouchableOpacity,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   SafeAreaView,
 } from 'react-native';
-import { Item, Category } from '@/entities';
+import { Category } from '@/entities';
 import { Route, Color } from '@/constants';
 import { Header } from '@/views/components';
 import { useItemCategories } from '@/hooks';
-import Modal from 'react-native-modal';
-import { Input, Icon } from 'react-native-elements';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
+import { Input, Icon } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 
 interface Props {

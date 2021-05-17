@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ImageSourcePropType,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { price } from '@/utils';
+import { Item } from '@/entities';
 import { Color } from '@/constants';
-import { Item, Category } from '@/entities';
-import { dateSlash, price } from '@/utils';
 
 type FooterProps = {
   count: number;

@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { Color } from '@/constants';
 import { Icon } from 'react-native-elements';
-import * as Haptics from 'expo-haptics';
 
 interface HeaderProps {
   title?: string;

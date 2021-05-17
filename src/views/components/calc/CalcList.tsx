@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Color } from '@/constants';
 import { Item, Category } from '@/entities';
 import { ListItem } from './item/ListItem';

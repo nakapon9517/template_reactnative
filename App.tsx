@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, LogBox } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Animated, StyleSheet, LogBox, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
 import { NavigationContainer } from '@react-navigation/native';

@@ -7,15 +7,13 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import { Item } from '@/entities';
 import { Route, Color } from '@/constants';
 import { Header } from '@/views/components';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import Modal from 'react-native-modal';
+import { StackNavigationProp } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
-import { Input, Image, Icon } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
+import { Input, Image, Icon } from 'react-native-elements';
 
 interface Props {
   navigation: StackNavigationProp<Route, 'GridInput'>;

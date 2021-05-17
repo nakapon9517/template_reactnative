@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  Platform,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, FlatList, Dimensions } from 'react-native';
 import { Item } from '@/entities';
 import { ImageItem } from './item/ImageItem';
 

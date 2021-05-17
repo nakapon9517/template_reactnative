@@ -1,6 +1,5 @@
 import { Item, Category } from '@/entities';
 import { Require } from '@/constants';
-import { useImageCategories } from '@/hooks';
 
 interface Props {
   categories: Category[];

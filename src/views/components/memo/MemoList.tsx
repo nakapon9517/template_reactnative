@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
-import { Category, Memo } from '@/entities';
+import { Memo } from '@/entities';
 import { MemoItem } from './item/MemoItem';
 
 interface Props {

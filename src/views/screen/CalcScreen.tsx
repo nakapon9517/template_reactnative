@@ -1,19 +1,12 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Route, Color } from '@/constants';
 import { Item } from '@/entities';
+import { Route, Color } from '@/constants';
 import { useItemCategories, useItem } from '@/hooks';
 import { AddButton, Admob, CalcList, Header } from '@/views/components';
-import { Icon } from 'react-native-elements';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import * as Haptics from 'expo-haptics';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Calc'>;

@@ -5,18 +5,15 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
-  Keyboard,
 } from 'react-native';
+import { Item } from '@/entities';
 import { Route, Color } from '@/constants';
 import { useImage, useImageCategories } from '@/hooks';
-import { Item } from '@/entities';
+import { Admob, GridList, Header, AddButton } from '@/views/components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { Admob, GridList, Header, AddButton } from '@/views/components';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
-import ImageEditor from '@react-native-community/image-editor';
 import { Icon } from 'react-native-elements';
 
 type Props = {

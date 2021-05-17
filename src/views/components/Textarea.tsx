@@ -7,12 +7,10 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  Platform,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
+import { Icon } from 'react-native-elements';
 
 interface Props {
   text: string;

@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
-  Dimensions,
-  Text,
   Platform,
   TouchableOpacity,
   KeyboardAvoidingView,
   SafeAreaView,
 } from 'react-native';
-import { Memo } from '@/entities';
 import { Route, Color } from '@/constants';
 import { Textarea, Header } from '@/views/components';
 import { StackNavigationProp } from '@react-navigation/stack';
