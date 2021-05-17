@@ -76,7 +76,6 @@ export const GridInputScreen = (props: Props) => {
     <SafeAreaView style={styles.view}>
       <Header
         // title={title}
-        goBack
         onClickBack={onClose}
       />
       <View style={styles.body}>

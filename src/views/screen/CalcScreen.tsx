@@ -12,7 +12,8 @@ import { useItemCategories, useItem } from '@/hooks';
 import { AddButton, Admob, CalcList, Header } from '@/views/components';
 import { Icon } from 'react-native-elements';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
+import * as Haptics from 'expo-haptics';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Calc'>;
@@ -34,17 +35,7 @@ const CalcScreen = (props: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
-      <Header
-        title='計算'
-        RightComponent={
-          <TouchableOpacity
-            style={styles.icon}
-            onPress={() => Keyboard.dismiss()}
-          >
-            <Icon type='material' name='list' color={Color.gray5} size={24} />
-          </TouchableOpacity>
-        }
-      />
+      <Header title='計算' />
       <CalcList
         categories={categories}
         items={items}

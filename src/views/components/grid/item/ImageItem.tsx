@@ -10,7 +10,7 @@ import {
 import { Item } from '@/entities';
 import { Color } from '@/constants';
 import { Image } from 'react-native-elements';
-
+import * as Haptics from 'expo-haptics';
 interface Props {
   item: Item;
   edit: boolean;
@@ -34,6 +34,9 @@ const ImageItem = React.memo((props: Props) => {
       if (count === 0) return;
       setCount(count - 1);
     }
+    // Haptics.notificationAsync();
+    // Haptics.impactAsync();
+    Haptics.selectionAsync();
   };
 
   return (

@@ -29,19 +29,20 @@ export const Textarea = React.memo((props: Props) => {
     Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
     return () => {
       Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+      Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
     };
   }, []);
   const _keyboardDidShow = () => setKeyboardStatus(true);
   const _keyboardDidHide = () => setKeyboardStatus(false);
 
   return (
-    <KeyboardAvoidingView
+    <View
       // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.input}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <>
-          <ScrollView>
+          <ScrollView indicatorStyle='white'>
             <TextInput
               multiline
               value={text}
@@ -69,7 +70,7 @@ export const Textarea = React.memo((props: Props) => {
           )}
         </>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </View>
   );
 });
 

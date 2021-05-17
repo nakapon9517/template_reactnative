@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import { Color } from '@/constants';
 import { Icon } from 'react-native-elements';
+import * as Haptics from 'expo-haptics';
 
 interface HeaderProps {
   title?: string;
-  goBack?: boolean;
   onClickBack?: () => void;
-  LeftComponent?: React.ReactNode;
+  // LeftComponent?: React.ReactNode;
   CenterComponent?: React.ReactNode;
   RightComponent?: React.ReactNode;
 }
@@ -22,8 +22,7 @@ export const Header = React.memo((props: HeaderProps) => {
   return (
     <View style={styles.view}>
       <View style={[styles.component, { alignItems: 'flex-start' }]}>
-        {/* {props.LeftComponent ? <>{props.LeftComponent}</> : <Text> </Text>} */}
-        {props.goBack && (
+        {props.onClickBack && (
           <TouchableOpacity style={styles.icon} onPress={props.onClickBack}>
             <Icon
               type='material'
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   icon: {
-    marginHorizontal: 8,
+    paddingHorizontal: 8,
   },
   text: {
     color: Color.gray5,

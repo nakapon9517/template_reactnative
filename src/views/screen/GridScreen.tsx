@@ -55,23 +55,14 @@ const GridScreen = (props: Props) => {
       <Header
         title='カウント'
         RightComponent={
-          edit ? (
-            <TouchableOpacity
-              style={styles.icon}
-              onPress={() => setEdit(false)}
-            >
-              <Icon type='material' name='edit' color={Color.gray5} size={24} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.icon} onPress={() => setEdit(true)}>
-              <Icon
-                type='material'
-                name='edit'
-                color={Color.gray80}
-                size={24}
-              />
-            </TouchableOpacity>
-          )
+          <TouchableOpacity style={styles.icon} onPress={() => setEdit(!edit)}>
+            <Icon
+              type='material'
+              name='edit'
+              color={edit ? Color.gray5 : Color.gray80}
+              size={24}
+            />
+          </TouchableOpacity>
         }
       />
       <GridList items={items} edit={edit} onPress={onClickItem} />

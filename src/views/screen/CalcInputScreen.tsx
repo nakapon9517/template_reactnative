@@ -67,7 +67,7 @@ export const CalcInputScreen = (props: Props) => {
         style={styles.modal}
         keyboardVerticalOffset={300}
       >
-        <Header title={category?.title} goBack onClickBack={onClose} />
+        <Header title={category?.title} onClickBack={onClose} />
         <View style={styles.body}>
           <Input
             value={name}

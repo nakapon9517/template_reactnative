@@ -58,7 +58,6 @@ export const MemoInputScreen = (props: Props) => {
       >
         <Header
           title={title}
-          goBack
           onClickBack={onClose}
           CenterComponent={
             !edit && (
