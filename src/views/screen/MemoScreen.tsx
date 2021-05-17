@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Memo } from '@/entities';
 import { useMemoList } from '@/hooks';
 import { AddButton, Admob, MemoList, Header } from '@/views/components';
@@ -7,6 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Route, Color } from '@/constants';
 import { RouteProp } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { Icon } from 'react-native-elements';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Memo'>;
@@ -15,6 +16,7 @@ type Props = {
 
 const MemoScreen = (props: Props) => {
   const { memos } = useMemoList();
+  const [edit, setEdit] = useState(false);
 
   const onClickAddButton = () => {
     props.navigation.navigate('MemoInput', {});
@@ -27,8 +29,20 @@ const MemoScreen = (props: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
-      <Header title='メモ' />
-      <MemoList memos={memos} onPressList={onClickList} />
+      <Header
+        title='メモ'
+        RightComponent={
+          <TouchableOpacity style={styles.icon} onPress={() => setEdit(!edit)}>
+            <Icon
+              type='material'
+              name='edit'
+              color={edit ? Color.gray5 : Color.gray80}
+              size={24}
+            />
+          </TouchableOpacity>
+        }
+      />
+      <MemoList memos={memos} edit={edit} onPressList={onClickList} />
       <AddButton onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>

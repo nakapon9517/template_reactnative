@@ -13,6 +13,7 @@ import { Icon } from 'react-native-elements';
 
 interface Props {
   memo: ListRenderItemInfo<Memo>;
+  edit: boolean;
   onPressList: (memo: Memo) => void;
 }
 
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 0.4,
     borderBottomColor: Color.gray90,
+    backgroundColor: Color.gray100,
   },
   text: {
     width: '60%',

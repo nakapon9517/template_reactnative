@@ -25,7 +25,6 @@ export const MemoInputScreen = (props: Props) => {
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
-    console.log(memo);
     if (memo) {
       setTitle(memo.title);
       setText(memo.text);
