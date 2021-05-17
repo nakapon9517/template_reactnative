@@ -54,7 +54,7 @@ export const GridInputScreen = (props: Props) => {
     if (!result.cancelled) {
       // console.log(result.base64);
       // setImage(result.base64);
-      // console.log(result.uri);
+      console.log(result.uri);
       setImage(result.uri);
     }
   };

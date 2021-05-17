@@ -9,7 +9,11 @@ export const GridNavigator = () => {
   return (
     <Stack.Navigator headerMode='none'>
       <Stack.Screen name='Grid' component={GridScreen} />
-      <Stack.Screen name='GridInput' component={GridInputScreen} />
+      <Stack.Screen
+        name='GridInput'
+        component={GridInputScreen}
+        initialParams={{}}
+      />
     </Stack.Navigator>
   );
 };

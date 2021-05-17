@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, LogBox } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Color } from '@/constants';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,6 +7,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CalcNavigator, GridNavigator, MemoNavigator } from '@/navigators';
 
 const Tab = createBottomTabNavigator();
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 export default function App() {
   return (

@@ -9,7 +9,11 @@ export const CalcNavigator = () => {
   return (
     <Stack.Navigator headerMode='none'>
       <Stack.Screen name='Calc' component={CalcScreen} />
-      <Stack.Screen name='CalcInput' component={CalcInputScreen} />
+      <Stack.Screen
+        name='CalcInput'
+        component={CalcInputScreen}
+        initialParams={{}}
+      />
     </Stack.Navigator>
   );
 };

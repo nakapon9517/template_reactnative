@@ -1,5 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, SafeAreaView, Platform, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  Alert,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 import { Route, Color } from '@/constants';
 import { useImage, useImageCategories } from '@/hooks';
 import { Item } from '@/entities';
@@ -10,6 +17,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import ImageEditor from '@react-native-community/image-editor';
+import { Icon } from 'react-native-elements';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Grid'>;
@@ -19,6 +27,7 @@ type Props = {
 const GridScreen = (props: Props) => {
   const categories = useImageCategories();
   const { items } = useImage({ categories: categories });
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -43,11 +52,29 @@ const GridScreen = (props: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
-      <GridList
-        items={items}
-        ListHeader={<Header title='カウント' />}
-        onPress={onClickItem}
+      <Header
+        title='カウント'
+        RightComponent={
+          edit ? (
+            <TouchableOpacity
+              style={styles.icon}
+              onPress={() => setEdit(false)}
+            >
+              <Icon type='material' name='edit' color={Color.gray5} size={24} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.icon} onPress={() => setEdit(true)}>
+              <Icon
+                type='material'
+                name='edit'
+                color={Color.gray80}
+                size={24}
+              />
+            </TouchableOpacity>
+          )
+        }
       />
+      <GridList items={items} edit={edit} onPress={onClickItem} />
       <AddButton onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>
@@ -58,6 +85,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.gray100,
+  },
+  icon: {
+    padding: 8,
+    marginRight: 4,
+    alignItems: 'flex-end',
   },
 });
 

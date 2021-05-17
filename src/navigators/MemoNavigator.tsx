@@ -9,7 +9,11 @@ export const MemoNavigator = () => {
   return (
     <Stack.Navigator headerMode='none'>
       <Stack.Screen name='Memo' component={MemoScreen} />
-      <Stack.Screen name='MemoInput' component={MemoInputScreen} />
+      <Stack.Screen
+        name='MemoInput'
+        component={MemoInputScreen}
+        initialParams={{}}
+      />
     </Stack.Navigator>
   );
 };
