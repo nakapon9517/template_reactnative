@@ -36,7 +36,7 @@ export const Textarea = React.memo((props: Props) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.input}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

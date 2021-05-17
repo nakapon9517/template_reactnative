@@ -24,7 +24,7 @@ interface Props {
 export const MemoInputScreen = (props: Props) => {
   const { memo } = props.route.params;
   const [title, setTitle] = useState<string>();
-  const [text, setText] = useState<string>();
+  const [text, setText] = useState<string>('');
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const MemoInputScreen = (props: Props) => {
     } else {
       setEdit(true);
     }
-  }, [memo]);
+  }, []);
 
   const onUpdate = () => {
     // データ更新処理
@@ -45,7 +45,7 @@ export const MemoInputScreen = (props: Props) => {
 
   const onClose = () => {
     setTitle(undefined);
-    setText(undefined);
+    setText('');
     props.navigation.goBack();
   };
 
@@ -85,7 +85,7 @@ export const MemoInputScreen = (props: Props) => {
               inputStyle={styles.inputName}
             />
           )}
-          <Textarea text={text ?? ''} onChangeText={(text) => setText(text)} />
+          <Textarea text={text} onChangeText={(text) => setText(text)} />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 10,
-    width: 600,
+    width: '100%',
+    maxWidth: 600,
     paddingTop: 24,
     alignItems: 'center',
   },

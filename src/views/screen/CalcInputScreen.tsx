@@ -45,7 +45,7 @@ export const CalcInputScreen = (props: Props) => {
       setCount(item.count);
       setPrice(item.price);
     }
-  }, [item]);
+  }, []);
 
   const onUpdate = () => {
     // データ更新処理

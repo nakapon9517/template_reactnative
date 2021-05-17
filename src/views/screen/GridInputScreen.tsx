@@ -40,7 +40,7 @@ export const GridInputScreen = (props: Props) => {
       setName(item.name);
       setCount(item.count);
     }
-  }, [item]);
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
