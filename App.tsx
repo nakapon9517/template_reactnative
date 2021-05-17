@@ -7,9 +7,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CalcNavigator, GridNavigator, MemoNavigator } from '@/navigators';
 
 const Tab = createBottomTabNavigator();
-LogBox.ignoreLogs([
-  'Non-serializable values were found in the navigation state',
-]);
+// LogBox.ignoreLogs([
+//   'Non-serializable values were found in the navigation state',
+// ]);
 
 export default function App() {
   return (
