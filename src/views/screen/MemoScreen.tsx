@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Memo } from '@/entities';
-import { useMemoList } from '@/hooks';
 import { AddButton, Admob, MemoList, Header } from '@/views/components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Route, Color } from '@/constants';
-import AppContext from '@/contexts/AppContext';
+import { useMemoList } from '@/hooks';
 import { RouteProp } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { Icon } from 'react-native-elements';
@@ -16,15 +15,12 @@ type Props = {
 };
 
 const MemoScreen = (props: Props) => {
-  const { memos, setMemos } = useContext(AppContext);
-  // let memos: Memo[] = [];
-  // const [memos, setMemo] = useState<Memo[]>();
-  // const [items, setItem] = useState<Memo[]>();
-  // useMemoList().then((res) => {
-  //   // memos = res.memos;
-  //   setMemo(res.memos);
-  // });
+  const { memos, setMemos } = useMemoList();
   const [edit, setEdit] = useState(false);
+
+  const onRowDelete = (target: Memo) => {
+    const newArray = memos?.filter((memo) => memo.id !== target.id);
+  };
 
   const onClickAddButton = () => {
     props.navigation.navigate('MemoInput', {});

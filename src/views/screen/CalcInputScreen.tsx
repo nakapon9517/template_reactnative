@@ -10,7 +10,7 @@ import {
 import { Category } from '@/entities';
 import { Route, Color } from '@/constants';
 import { Header } from '@/views/components';
-import { useItemCategories } from '@/hooks';
+import { useCalcCategories } from '@/hooks';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { Input, Icon } from 'react-native-elements';
@@ -22,8 +22,8 @@ interface Props {
 }
 
 export const CalcInputScreen = (props: Props) => {
-  const { item } = props.route.params;
-  const categories = useItemCategories();
+  const { calc } = props.route.params;
+  const categories = useCalcCategories();
   const [category, setCategory] = useState<Category>();
   const [name, setName] = useState<string>();
   const [count, setCount] = useState<number>();
@@ -35,11 +35,11 @@ export const CalcInputScreen = (props: Props) => {
     });
 
   useEffect(() => {
-    if (item) {
-      setCategory(categories[item.category]);
-      setName(item.name);
-      setCount(item.count);
-      setPrice(item.price);
+    if (calc) {
+      setCategory(categories[calc.category]);
+      setName(calc.name);
+      setCount(calc.count);
+      setPrice(calc.price);
     }
   }, []);
 

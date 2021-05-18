@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Color } from '@/constants';
-import { Item, Category } from '@/entities';
+import { Calc, Category } from '@/entities';
 import { ListItem } from './item/ListItem';
 import SectionList from 'react-native-tabs-section-list';
 
 interface Props {
-  items: Item[];
+  items: Calc[];
   categories: Category[];
-  onClickItem: (item: Item) => void;
+  onClickItem: (item: Calc) => void;
 }
 export const CalcList = (props: Props) => {
   type TabProps = {
@@ -78,10 +78,10 @@ export const CalcList = (props: Props) => {
           footerItem={{
             count: section.data
               .map((item) => item.count)
-              .reduce((prev, current) => prev + current),
+              .reduce((prev, current) => prev + current, 0),
             price: section.data
               .map((item) => item.price)
-              .reduce((prev, current) => prev + current),
+              .reduce((prev, current) => prev + current, 0),
           }}
         />
       )}

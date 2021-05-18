@@ -6,9 +6,9 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import { Item } from '@/entities';
+import { Grid } from '@/entities';
 import { Route, Color } from '@/constants';
-import { useImage, useImageCategories } from '@/hooks';
+import { useGridList, useGridCategories } from '@/hooks';
 import { Admob, GridList, Header, AddButton } from '@/views/components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -22,8 +22,8 @@ type Props = {
 };
 
 const GridScreen = (props: Props) => {
-  const categories = useImageCategories();
-  const { items } = useImage({ categories: categories });
+  const { grids, setGrids } = useGridList();
+  const categories = useGridCategories();
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -42,8 +42,8 @@ const GridScreen = (props: Props) => {
     props.navigation.navigate('GridInput', {});
   };
 
-  const onClickItem = (item: Item) => {
-    props.navigation.navigate('GridInput', { item });
+  const onClickItem = (grid: Grid) => {
+    props.navigation.navigate('GridInput', { grid });
   };
 
   return (
@@ -62,7 +62,7 @@ const GridScreen = (props: Props) => {
           </TouchableOpacity>
         }
       />
-      <GridList items={items} edit={edit} onPress={onClickItem} />
+      <GridList items={grids ?? []} edit={edit} onPress={onClickItem} />
       <AddButton onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>

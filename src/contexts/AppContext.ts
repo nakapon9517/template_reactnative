@@ -1,16 +1,17 @@
 import { createContext } from 'react';
-// import { StarConnectionSettings } from 'react-native-star-io10';
-import { Memo, Item } from '@/entities';
-// import { NotificationType } from '@/components';
+import { Memo, Calc, Grid } from '@/entities';
 
 type ContextProps = {
   memos?: Memo[];
   setMemos: (memo?: Memo[]) => void;
-  items?: Item[];
-  setItems: (item?: Item[]) => void;
+  calcs?: Calc[];
+  setCalcs: (calc?: Calc[]) => void;
+  grids?: Grid[];
+  setGrids: (grid?: Grid[]) => void;
 };
 
 export default createContext<ContextProps>({
   setMemos: () => {},
-  setItems: () => {},
+  setCalcs: () => {},
+  setGrids: () => {},
 });

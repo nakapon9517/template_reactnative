@@ -59,11 +59,11 @@ const MemoList = (props: Props) => {
         </View>
       )}
       disableRightSwipe
-      onRowDidOpen={onRowDidOpen}
+      // onRowDidOpen={onRowDidOpen}
       rightOpenValue={-100}
       rightActivationValue={-100}
       rightActionValue={-100}
-      // onRightAction={onRightAction}
+      onRightAction={onRightAction}
       // onRightActionStatusChange={onRightAction}
     />
   );

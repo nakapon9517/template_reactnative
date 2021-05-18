@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { LogBox } from 'react-native';
-import { Memo, Item } from '@/entities';
-import { useMemoList, useItem, useImage } from '@/hooks';
+import { Memo, Calc, Grid } from '@/entities';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from '@/navigators/TabNavigator';
 import AppContext from '@/contexts/AppContext';
 import { Storage, StorageName } from '@/utils/Storage';
-import { stringify, parse } from 'telejson';
 
 // LogBox.ignoreLogs([
 //   'Non-serializable values were found in the navigation state',
@@ -14,12 +12,23 @@ import { stringify, parse } from 'telejson';
 
 export default function App() {
   const [memos, setMemos] = useState<Memo[]>();
-  const [items, setItems] = useState<Item[]>();
+  const [calcs, setCalcs] = useState<Calc[]>();
+  const [grids, setGrids] = useState<Grid[]>();
 
   useEffect(() => {
-    useMemoList().then((res) => {
-      setMemos(res.memos);
-    });
+    const load = async () => {
+      const storage = new Storage();
+      await storage.get(StorageName.MEMO_LIST).then((list) => {
+        setMemos(list);
+      });
+      await storage.get(StorageName.CALC_LIST).then((list) => {
+        setCalcs(list);
+      });
+      await storage.get(StorageName.GRID_LIST).then((list) => {
+        setGrids(list);
+      });
+    };
+    load();
   }, []);
 
   return (
@@ -28,8 +37,10 @@ export default function App() {
         value={{
           memos,
           setMemos,
-          items,
-          setItems,
+          calcs,
+          setCalcs,
+          grids,
+          setGrids,
         }}
       >
         <TabNavigator />

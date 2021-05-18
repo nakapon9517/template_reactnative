@@ -1,6 +1,6 @@
 import { Category } from '@/entities';
 
-export const useImageCategories = () => {
+export const useCalcCategories = () => {
   const categories: Category[] = [
     { id: 1, title: 'Oneaaaaaaaaaaaaaaaaaaaaaaaaa' },
     { id: 2, title: 'Two' },

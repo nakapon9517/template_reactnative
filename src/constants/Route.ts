@@ -1,11 +1,11 @@
-import { Item, Memo } from '@/entities';
+import { Memo, Calc, Grid } from '@/entities';
 
 export type Route = {
   Splash: undefined;
   Memo: undefined;
   MemoInput: { memo?: Memo };
   Calc: undefined;
-  CalcInput: { item?: Item };
+  CalcInput: { calc?: Calc };
   Grid: undefined;
-  GridInput: { item?: Item };
+  GridInput: { grid?: Grid };
 };

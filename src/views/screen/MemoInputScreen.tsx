@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,8 +12,6 @@ import { Route, Color } from '@/constants';
 import { Textarea, Header } from '@/views/components';
 import { Memo } from '@/entities';
 import { useMemoList } from '@/hooks';
-import AppContext from '@/contexts/AppContext';
-// import storage, { StorageName } from '@/utils/Storage';
 import { Storage, StorageName } from '@/utils/Storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -27,11 +25,7 @@ interface Props {
 
 export const MemoInputScreen = (props: Props) => {
   const { memo } = props.route.params;
-  const { memos, setMemos } = useContext(AppContext);
-  // let memos: Memo[] = [];
-  // useMemoList().then((res) => {
-  //   memos = res.memos;
-  // });
+  const { memos, setMemos } = useMemoList();
   const [id, setId] = useState<string>();
   const [title, setTitle] = useState<string>();
   const [text, setText] = useState<string>();
@@ -62,7 +56,6 @@ export const MemoInputScreen = (props: Props) => {
         text: text ?? '',
       };
       const datas = [...(memos ?? []), memo];
-      console.log('update', datas);
       storage.save(
         StorageName.MEMO_LIST,
         // id: memo.id,

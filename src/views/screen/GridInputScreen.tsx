@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const GridInputScreen = (props: Props) => {
-  const { item } = props.route.params;
+  const { grid } = props.route.params;
   const noImage = require('@/assets/images/noImage_gray.png');
   const pickNumbers = Array(100)
     .fill(undefined)
@@ -33,11 +33,13 @@ export const GridInputScreen = (props: Props) => {
   const [count, setCount] = useState<number>();
 
   useEffect(() => {
-    if (item) {
-      setImage(item.uri);
-      setName(item.name);
-      setCount(item.count);
+    if (grid) {
+      setImage(grid.uri);
+      setCount(grid.count);
+    } else {
+      setImage('@/assets/images/noImage_gray.png');
     }
+    console.log(image);
   }, []);
 
   const pickImage = async () => {
@@ -86,6 +88,7 @@ export const GridInputScreen = (props: Props) => {
               source={image ? { uri: image } : noImage}
               style={styles.image}
               containerStyle={styles.image}
+              placeholderStyle={{ backgroundColor: Color.theme2 }}
               PlaceholderContent={<ActivityIndicator />}
             />
             {image && (

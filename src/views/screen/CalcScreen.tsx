@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Item } from '@/entities';
+import { Calc } from '@/entities';
 import { Route, Color } from '@/constants';
-import { useItemCategories, useItem } from '@/hooks';
+import { useCalcList, useCalcCategories } from '@/hooks';
 import { AddButton, Admob, CalcList, Header } from '@/views/components';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -14,15 +14,15 @@ type Props = {
 };
 
 const CalcScreen = (props: Props) => {
-  const categories = useItemCategories();
-  const { items } = useItem({ categories: categories });
+  const { calcs, setCalcs } = useCalcList();
+  const categories = useCalcCategories();
 
   const onClickAddButton = () => {
     props.navigation.navigate('CalcInput', {});
   };
 
-  const onClickItem = (item: Item) => {
-    props.navigation.navigate('CalcInput', { item });
+  const onClickItem = (calc: Calc) => {
+    props.navigation.navigate('CalcInput', { calc });
   };
 
   return (
@@ -31,7 +31,7 @@ const CalcScreen = (props: Props) => {
       <Header title='計算' />
       <CalcList
         categories={categories}
-        items={items}
+        items={calcs ?? []}
         onClickItem={onClickItem}
       />
       <AddButton onPress={onClickAddButton} />

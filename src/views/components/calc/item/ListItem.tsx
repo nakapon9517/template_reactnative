@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Formatter } from '@/utils';
-import { Item } from '@/entities';
+import { Calc } from '@/entities';
 import { Color } from '@/constants';
 
 type FooterProps = {
@@ -9,9 +9,9 @@ type FooterProps = {
   price: number;
 };
 interface Props {
-  item?: Item;
+  item?: Calc;
   footerItem?: FooterProps;
-  onClickItem?: (item: Item) => void;
+  onClickItem?: (calc: Calc) => void;
 }
 
 const ListItem = React.memo((props: Props) => {
