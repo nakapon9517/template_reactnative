@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { price } from '@/utils';
+import { Formatter } from '@/utils';
 import { Item } from '@/entities';
 import { Color } from '@/constants';
 
@@ -32,7 +32,9 @@ const ListItem = React.memo((props: Props) => {
           </View>
           <View style={styles.moneyView}>
             {props.item.price !== undefined && (
-              <Text style={styles.money}>{price(props.item.price)}</Text>
+              <Text style={styles.money}>
+                {Formatter().price(props.item.price)}
+              </Text>
             )}
           </View>
         </TouchableOpacity>
@@ -44,7 +46,9 @@ const ListItem = React.memo((props: Props) => {
             <Text style={styles.text}>{props.footerItem.count}</Text>
           </View>
           <View style={styles.moneyView}>
-            <Text style={styles.money}>{price(props.footerItem.price)}</Text>
+            <Text style={styles.money}>
+              {Formatter().price(props.footerItem.price)}
+            </Text>
           </View>
         </View>
       )}

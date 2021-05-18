@@ -17,7 +17,7 @@ interface Props {
   onPressList: (memo: Memo) => void;
 }
 
-export const MemoItem = React.memo((props: Props) => {
+export const MemoItem = (props: Props) => {
   return (
     <TouchableOpacity
       key={props.memo.index}
@@ -40,7 +40,7 @@ export const MemoItem = React.memo((props: Props) => {
       </View>
     </TouchableOpacity>
   );
-});
+};
 
 const styles = StyleSheet.create({
   list: {

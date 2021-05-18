@@ -10,7 +10,7 @@ interface Props {
   onPressList: (memo: Memo) => void;
 }
 
-const MemoList = React.memo((props: Props) => {
+const MemoList = (props: Props) => {
   const onRowDidOpen = (rowKey: any) => {
     console.log('This row opened', rowKey);
     Alert.alert('aaaa');
@@ -67,7 +67,7 @@ const MemoList = React.memo((props: Props) => {
       // onRightActionStatusChange={onRightAction}
     />
   );
-});
+};
 
 const styles = StyleSheet.create({
   view: {

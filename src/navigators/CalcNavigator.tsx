@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-export const CalcNavigator = () => {
+const CalcNavigator = () => {
   return (
     <Stack.Navigator headerMode='none'>
       <Stack.Screen name='Calc' component={CalcScreen} />
@@ -17,3 +17,5 @@ export const CalcNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+export default CalcNavigator;

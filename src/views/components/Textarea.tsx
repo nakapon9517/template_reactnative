@@ -13,16 +13,16 @@ import { Color } from '@/constants';
 import { Icon } from 'react-native-elements';
 
 interface Props {
-  text: string;
+  text?: string;
   onChangeText: (text: string) => void;
 }
 
 export const Textarea = React.memo((props: Props) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
-  const [text, setText] = useState<string>();
+  // const [text, setText] = useState<string>();
 
   useEffect(() => {
-    setText(props.text);
+    // setText(props.text);
     Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
     return () => {
@@ -43,8 +43,8 @@ export const Textarea = React.memo((props: Props) => {
           <ScrollView indicatorStyle='white'>
             <TextInput
               multiline
-              value={text}
-              onChangeText={setText}
+              value={props.text}
+              onChangeText={(text) => props.onChangeText(text)}
               // onChangeText={props.onChangeText}
               style={styles.textarea}
               placeholder='入力...'

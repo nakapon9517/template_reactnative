@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-export const MemoNavigator = () => {
+const MemoNavigator = () => {
   return (
     <Stack.Navigator headerMode='none'>
       <Stack.Screen name='Memo' component={MemoScreen} />
@@ -17,3 +17,5 @@ export const MemoNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+export default MemoNavigator;
