@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LogBox } from 'react-native';
-import { Memo, Calc, Grid } from '@/entities';
+import { Memo, Calc, Grid, Category } from '@/entities';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from '@/navigators/TabNavigator';
 import AppContext from '@/contexts/AppContext';
@@ -13,6 +13,7 @@ import { Storage, StorageName } from '@/utils/Storage';
 export default function App() {
   const [memos, setMemos] = useState<Memo[]>();
   const [calcs, setCalcs] = useState<Calc[]>();
+  const [calcCategories, setCalcCategory] = useState<Category[]>();
   const [grids, setGrids] = useState<Grid[]>();
 
   useEffect(() => {
@@ -23,6 +24,9 @@ export default function App() {
       });
       await storage.get(StorageName.CALC_LIST).then((list) => {
         setCalcs(list);
+      });
+      await storage.get(StorageName.CALC_CATEGORY).then((list) => {
+        setCalcCategory(list);
       });
       await storage.get(StorageName.GRID_LIST).then((list) => {
         setGrids(list);
@@ -39,6 +43,8 @@ export default function App() {
           setMemos,
           calcs,
           setCalcs,
+          calcCategories,
+          setCalcCategory,
           grids,
           setGrids,
         }}

@@ -13,7 +13,6 @@ import { Icon } from 'react-native-elements';
 
 interface Props {
   memo: ListRenderItemInfo<Memo>;
-  edit: boolean;
   onPressList: (memo: Memo) => void;
 }
 

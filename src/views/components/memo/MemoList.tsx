@@ -6,7 +6,6 @@ import { MemoItem } from './item/MemoItem';
 import { SwipeListView } from 'react-native-swipe-list-view';
 interface Props {
   memos: Memo[];
-  edit: boolean;
   onPressList: (memo: Memo) => void;
   onRowDelete: (id: string) => void;
 }
@@ -16,11 +15,7 @@ const MemoList = (props: Props) => {
     <SwipeListView
       data={props.memos}
       renderItem={(memo) => (
-        <MemoItem
-          memo={memo}
-          edit={props.edit}
-          onPressList={props.onPressList}
-        />
+        <MemoItem memo={memo} onPressList={props.onPressList} />
       )}
       keyExtractor={(_, index) => String(index)}
       renderHiddenItem={(data, rowMap) => (

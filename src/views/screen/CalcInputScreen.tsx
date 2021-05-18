@@ -23,7 +23,7 @@ interface Props {
 
 export const CalcInputScreen = (props: Props) => {
   const { calc } = props.route.params;
-  const categories = useCalcCategories();
+  const { calcCategories, setCalcCategoryList } = useCalcCategories();
   const [category, setCategory] = useState<Category>();
   const [name, setName] = useState<string>();
   const [count, setCount] = useState<number>();
@@ -36,7 +36,7 @@ export const CalcInputScreen = (props: Props) => {
 
   useEffect(() => {
     if (calc) {
-      setCategory(categories[calc.category]);
+      setCategory(calcCategories && calcCategories[calc.category]);
       setName(calc.name);
       setCount(calc.count);
       setPrice(calc.price);

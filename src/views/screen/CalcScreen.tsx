@@ -1,12 +1,19 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Calc } from '@/entities';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
+import { Calc, Category } from '@/entities';
 import { Route, Color } from '@/constants';
 import { useCalcList, useCalcCategories } from '@/hooks';
-import { AddButton, Admob, CalcList, Header } from '@/views/components';
+import {
+  AddButton,
+  AddTabButton,
+  Admob,
+  CalcList,
+  Header,
+  CategoryView,
+} from '@/views/components';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { StatusBar } from 'expo-status-bar';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Calc'>;
@@ -14,8 +21,18 @@ type Props = {
 };
 
 const CalcScreen = (props: Props) => {
-  const { calcs, setCalcs } = useCalcList();
-  const categories = useCalcCategories();
+  const { calcs, setCalcList } = useCalcList();
+  const { calcCategories, setCalcCategory, setCalcCategoryList } =
+    useCalcCategories();
+  const [disabled, setDisabled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setCalcCategory([{ id: 1, title: 'aaa' }]);
+    setDisabled(calcCategories ? calcCategories.length === 0 : true);
+  }, []);
+
+  const onClickCategory = () => {};
 
   const onClickAddButton = () => {
     props.navigation.navigate('CalcInput', {});
@@ -30,11 +47,19 @@ const CalcScreen = (props: Props) => {
       <StatusBar style='light' />
       <Header title='計算' />
       <CalcList
-        categories={categories}
         items={calcs ?? []}
+        categories={calcCategories ?? []}
         onClickItem={onClickItem}
       />
-      <AddButton onPress={onClickAddButton} />
+      <CategoryView
+        visible={open}
+        calcs={calcs ?? []}
+        categories={calcCategories ?? []}
+        setOpen={setOpen}
+        onClickItem={onClickCategory}
+      />
+      <AddTabButton onPress={() => setOpen(true)} />
+      <AddButton disabled={disabled} onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>
   );

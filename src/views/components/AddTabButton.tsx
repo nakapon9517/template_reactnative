@@ -1,20 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Color } from '@/constants';
+import { Icon } from 'react-native-elements';
 
 interface Props {
-  disabled?: boolean;
   onPress: () => void;
 }
 
-export const AddButton = React.memo((props: Props) => {
+export const AddTabButton = React.memo((props: Props) => {
   return (
-    <TouchableOpacity
-      style={[styles.add, props.disabled && { opacity: 0.4 }]}
-      onPress={props.onPress}
-      disabled={props.disabled}
-    >
-      <Text style={styles.addText}>+</Text>
+    <TouchableOpacity style={styles.add} onPress={props.onPress}>
+      <Icon type='material' name='playlist-add' size={24} color={Color.gray5} />
     </TouchableOpacity>
   );
 });
@@ -25,15 +21,11 @@ const styles = StyleSheet.create({
     height: 54,
     position: 'absolute',
     right: 8,
-    bottom: 68,
+    bottom: 128,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 99,
     backgroundColor: Color.theme2,
     zIndex: 99,
-  },
-  addText: {
-    fontSize: 32,
-    color: Color.gray5,
   },
 });

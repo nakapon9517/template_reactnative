@@ -11,6 +11,8 @@ interface Props {
   onClickItem: (item: Calc) => void;
 }
 export const CalcList = (props: Props) => {
+  console.log('props.categories', props.categories);
+
   type TabProps = {
     title: string;
     isActive: boolean;
