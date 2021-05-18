@@ -15,11 +15,11 @@ type Props = {
 };
 
 const MemoScreen = (props: Props) => {
-  const { memos, setMemos } = useMemoList();
+  const { memos, setMemos, setMemoList } = useMemoList();
   const [edit, setEdit] = useState(false);
 
-  const onRowDelete = (target: Memo) => {
-    const newArray = memos?.filter((memo) => memo.id !== target.id);
+  const onRowDelete = (id: string) => {
+    setMemoList(memos?.filter((memo) => memo.id !== id) ?? []);
   };
 
   const onClickAddButton = () => {
@@ -46,7 +46,12 @@ const MemoScreen = (props: Props) => {
           </TouchableOpacity>
         }
       />
-      <MemoList memos={memos ?? []} edit={edit} onPressList={onClickList} />
+      <MemoList
+        memos={memos ?? []}
+        edit={edit}
+        onPressList={onClickList}
+        onRowDelete={onRowDelete}
+      />
       <AddButton onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>

@@ -69,7 +69,7 @@ export const CalcInputScreen = (props: Props) => {
             value={name}
             label='Name'
             labelStyle={styles.label}
-            placeholder='name here..'
+            placeholder='入力...'
             onChangeText={(text) => setName(text)}
             containerStyle={styles.input}
             inputStyle={styles.inputName}

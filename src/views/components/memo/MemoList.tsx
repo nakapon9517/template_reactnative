@@ -8,34 +8,10 @@ interface Props {
   memos: Memo[];
   edit: boolean;
   onPressList: (memo: Memo) => void;
+  onRowDelete: (id: string) => void;
 }
 
 const MemoList = (props: Props) => {
-  const onRowDidOpen = (rowKey: any) => {
-    console.log('This row opened', rowKey);
-    Alert.alert('aaaa');
-    // Alert.alert(
-    //   'did' + props.memos[Number(rowKey)].title,
-    //   props.memos[Number(rowKey)].text.slice(0, 30),
-    //   [
-    //     { text: 'OK', onPress: () => console.log('OK') },
-    //     { text: 'Cancel', onPress: () => console.log('Cancel') },
-    //   ]
-    // );
-  };
-  const onRightAction = (rowKey: any) => {
-    console.log('This row opened', rowKey);
-    Alert.alert('bbbbb');
-    // Alert.alert(
-    //   'did' + props.memos[Number(rowKey)].title,
-    //   props.memos[Number(rowKey)].text.slice(0, 30),
-    //   [
-    //     { text: 'OK', onPress: () => console.log('OK') },
-    //     { text: 'Cancel', onPress: () => console.log('Cancel') },
-    //   ]
-    // );
-  };
-
   return (
     <SwipeListView
       data={props.memos}
@@ -59,12 +35,10 @@ const MemoList = (props: Props) => {
         </View>
       )}
       disableRightSwipe
-      // onRowDidOpen={onRowDidOpen}
       rightOpenValue={-100}
       rightActivationValue={-100}
       rightActionValue={-100}
-      onRightAction={onRightAction}
-      // onRightActionStatusChange={onRightAction}
+      onRightAction={props.onRowDelete}
     />
   );
 };

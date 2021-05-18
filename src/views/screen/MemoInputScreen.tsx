@@ -25,7 +25,7 @@ interface Props {
 
 export const MemoInputScreen = (props: Props) => {
   const { memo } = props.route.params;
-  const { memos, setMemos } = useMemoList();
+  const { memos, setMemoList } = useMemoList();
   const [id, setId] = useState<string>();
   const [title, setTitle] = useState<string>();
   const [text, setText] = useState<string>();
@@ -37,31 +37,23 @@ export const MemoInputScreen = (props: Props) => {
     //   key: StorageName.MEMO_LIST,
     // });
     // console.log('delete::::::');
-    if (memo) {
-      setId(memo.id);
-      setTitle(memo.title);
-      setText(memo.text);
-    } else {
-      setId(String(memos ? memos.length : 0));
-      setEdit(true);
-    }
+    setId(memo?.id);
+    setTitle(memo?.title);
+    setText(memo?.text);
+    setId(String(memos ? memos.length : 0));
+    setEdit(!memo);
   }, []);
 
   const onUpdate = () => {
-    const storage = new Storage<Memo[]>();
     if (id && title) {
-      const memo: Memo = {
-        id: id,
-        title: title,
-        text: text ?? '',
-      };
-      const datas = [...(memos ?? []), memo];
-      storage.save(
-        StorageName.MEMO_LIST,
-        // id: memo.id,
-        datas
-      );
-      setMemos(datas);
+      setMemoList([
+        ...(memos ?? []),
+        {
+          id: id,
+          title: title,
+          text: text ?? '',
+        },
+      ]);
       onClose();
     } else {
       setError(true);
@@ -115,7 +107,7 @@ export const MemoInputScreen = (props: Props) => {
                 value={title}
                 label='Title'
                 labelStyle={styles.label}
-                placeholder='name here..'
+                placeholder='入力...'
                 onChangeText={setTitle}
                 containerStyle={styles.input}
                 inputStyle={styles.inputName}
