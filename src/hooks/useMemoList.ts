@@ -11,5 +11,6 @@ export const useMemoList = () => {
     storage.save(StorageName.MEMO_LIST, memos);
     setMemos(memos);
   };
+
   return { memos, setMemos, setMemoList };
 };
