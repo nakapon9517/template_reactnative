@@ -6,6 +6,7 @@ export type Route = {
   MemoInput: { memo?: Memo };
   Calc: undefined;
   CalcInput: { calc?: Calc };
+  CalcCategoryScreen: undefined;
   Grid: undefined;
   GridInput: { grid?: Grid };
 };

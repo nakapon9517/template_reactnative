@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     flexDirection: 'row',
     borderTopWidth: 1,
-    borderColor: Color.gray20,
+    borderColor: Color.gray50,
   },
   titleView: {
     flex: 1,

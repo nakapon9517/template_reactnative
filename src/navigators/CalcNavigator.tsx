@@ -1,6 +1,9 @@
 import React from 'react';
-import { CalcScreen } from '@/views/screen';
-import { CalcInputScreen } from '@/views/screen';
+import {
+  CalcScreen,
+  CalcInputScreen,
+  CalcCategoryScreen,
+} from '@/views/screen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
@@ -14,6 +17,7 @@ const CalcNavigator = () => {
         component={CalcInputScreen}
         initialParams={{}}
       />
+      <Stack.Screen name='CalcCategoryScreen' component={CalcCategoryScreen} />
     </Stack.Navigator>
   );
 };

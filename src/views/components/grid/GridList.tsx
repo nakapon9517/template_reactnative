@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, FlatList, Dimensions } from 'react-native';
-import { Item } from '@/entities';
+import { Grid } from '@/entities';
 import { ImageItem } from './item/ImageItem';
 
 interface Props {
-  items: Item[];
+  items: Grid[];
   edit: boolean;
-  onPress: (item: Item) => void;
+  onPress: (item: Grid) => void;
 }
 export const GridList = React.memo((props: Props) => {
   const { width, height } = Dimensions.get('screen');

@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from '@/navigators/TabNavigator';
 import AppContext from '@/contexts/AppContext';
 import { Storage, StorageName } from '@/utils/Storage';
+import { StatusBar } from 'expo-status-bar';
 
 // LogBox.ignoreLogs([
 //   'Non-serializable values were found in the navigation state',
@@ -37,6 +38,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar style='light' />
       <AppContext.Provider
         value={{
           memos,

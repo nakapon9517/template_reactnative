@@ -37,10 +37,9 @@ export const MemoInputScreen = (props: Props) => {
     //   key: StorageName.MEMO_LIST,
     // });
     // console.log('delete::::::');
-    setId(memo?.id);
+    setId(memo ? memo.id : String(memos ? memos.length : 0));
     setTitle(memo?.title);
     setText(memo?.text);
-    setId(String(memos ? memos.length : 0));
     setEdit(!memo);
   }, []);
 

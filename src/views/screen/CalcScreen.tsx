@@ -26,14 +26,26 @@ const CalcScreen = (props: Props) => {
     useCalcCategories();
   const [disabled, setDisabled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [newCategory, setNewCategory] = useState('');
 
   useEffect(() => {
     setCalcCategory([{ id: 1, title: 'aaa' }]);
     setDisabled(calcCategories ? calcCategories.length === 0 : true);
   }, []);
 
+  const onSaveNewCategory = () => {
+    console.log('aaaaa', newCategory);
+    // setCalcCategoryList([
+    //   ...(calcCategories ?? []),
+    //   { id: calcCategories ? calcCategories.length : 0, title: text },
+    // ]);
+  };
+
   const onClickCategory = () => {};
 
+  const onClickAddCategoryButton = () => {
+    props.navigation.navigate('CalcCategoryScreen');
+  };
   const onClickAddButton = () => {
     props.navigation.navigate('CalcInput', {});
   };
@@ -55,10 +67,13 @@ const CalcScreen = (props: Props) => {
         visible={open}
         calcs={calcs ?? []}
         categories={calcCategories ?? []}
+        newCategory={newCategory}
+        setNewCategory={setNewCategory}
         setOpen={setOpen}
         onClickItem={onClickCategory}
+        onSaveNewCategory={onSaveNewCategory}
       />
-      <AddTabButton onPress={() => setOpen(true)} />
+      <AddTabButton onPress={onClickAddCategoryButton} />
       <AddButton disabled={disabled} onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>
