@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
-  Dimensions,
   FlatList,
   SafeAreaView,
   View,
+  Text,
   TouchableOpacity,
 } from 'react-native';
-import { useCalcCategories } from '@/hooks';
+import { useCalcList, useCalcCategories } from '@/hooks';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Route, Color } from '@/constants';
-import { Category } from '@/entities';
 import { Header, CategoryNew } from '@/views/components';
 import { RouteProp } from '@react-navigation/native';
-import { Input, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { StatusBar } from 'expo-status-bar';
 
 type Props = {
@@ -22,10 +21,10 @@ type Props = {
 };
 
 const CalcCategoryScreen = (props: Props) => {
+  const { calcs, setCalcList } = useCalcList();
   const { calcCategories, setCalcCategoryList } = useCalcCategories();
 
   const onSaveNewCategory = (text?: string) => {
-    console.log('-----', calcCategories);
     if (!text) return;
     setCalcCategoryList([
       ...(calcCategories ?? []),
@@ -34,6 +33,7 @@ const CalcCategoryScreen = (props: Props) => {
   };
 
   const onClickDelete = (id: number) => {
+    calcs && setCalcList(calcs.filter((_, index) => index !== id));
     calcCategories &&
       setCalcCategoryList(calcCategories.filter((_, index) => index !== id));
   };
@@ -53,27 +53,20 @@ const CalcCategoryScreen = (props: Props) => {
         stickyHeaderIndices={[0]}
         renderItem={(category) => (
           <View>
-            <Input
-              leftIcon={
-                <TouchableOpacity onPress={() => onClickDelete(category.index)}>
-                  <Icon
-                    type='material'
-                    name='close'
-                    color={Color.gray80}
-                    size={16}
-                    containerStyle={{
-                      width: 32,
-                      height: 32,
-                      justifyContent: 'center',
-                    }}
-                  />
-                </TouchableOpacity>
-              }
-              value={category.item.title}
-              onChangeText={(text) => console.log(text)}
-              containerStyle={styles.input}
-              inputStyle={styles.inputName}
-            />
+            <View style={styles.input}>
+              <TouchableOpacity
+                style={styles.icon}
+                onPress={() => onClickDelete(category.index)}
+              >
+                <Icon
+                  type='material'
+                  name='close'
+                  color={Color.gray80}
+                  size={12}
+                />
+              </TouchableOpacity>
+              <Text style={styles.inputRead}>{category.item.title}</Text>
+            </View>
           </View>
         )}
         ListHeaderComponent={() => (
@@ -89,24 +82,26 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.gray100,
   },
-  modalWrapper: {
-    width: Dimensions.get('screen').width,
-    height: Dimensions.get('screen').height,
-    marginTop: 72,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 0,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    backgroundColor: Color.gray90,
-  },
-  modal: {
-    flex: 1,
-  },
   input: {
     width: 300,
+    height: 48,
+    padding: 8,
+    marginVertical: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: Color.gray70,
   },
-  inputName: {
+  icon: {
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 99,
+    borderColor: Color.gray80,
+  },
+  inputRead: {
+    flex: 1,
     color: Color.gray5,
     paddingLeft: 8,
   },

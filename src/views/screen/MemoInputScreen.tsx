@@ -33,10 +33,6 @@ export const MemoInputScreen = (props: Props) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // storage.remove({
-    //   key: StorageName.MEMO_LIST,
-    // });
-    // console.log('delete::::::');
     setId(memo ? memo.id : String(memos ? memos.length : 0));
     setTitle(memo?.title);
     setText(memo?.text);
@@ -104,7 +100,7 @@ export const MemoInputScreen = (props: Props) => {
             <>
               <Input
                 value={title}
-                label='Title'
+                label='タイトル*'
                 labelStyle={styles.label}
                 placeholder='入力...'
                 onChangeText={setTitle}

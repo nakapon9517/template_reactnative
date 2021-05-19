@@ -11,23 +11,29 @@ const CategoryNew = (props: Props) => {
   const [newCategory, setNewCategory] = useState<string>();
 
   return (
-    <View style={styles.view}>
-      <Input
-        value={newCategory}
-        label='カテゴリ追加'
-        labelStyle={styles.label}
-        placeholder='入力...'
-        onChangeText={setNewCategory}
-        containerStyle={styles.input}
-        inputStyle={styles.inputName}
-      />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => props.onSaveNewCategory(newCategory)}
-      >
-        <Text>作成</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.view}>
+        <Input
+          value={newCategory}
+          label='カテゴリ追加'
+          labelStyle={styles.label}
+          placeholder='入力...'
+          onChangeText={setNewCategory}
+          containerStyle={styles.input}
+          inputStyle={styles.inputName}
+          maxLength={40}
+        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => props.onSaveNewCategory(newCategory)}
+        >
+          <Text>作成</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.text}>
+        ※カテゴリを削除すると紐づくデータも削除されます
+      </Text>
+    </>
   );
 };
 
@@ -36,7 +42,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 16,
-    marginVertical: 12,
+    marginTop: 12,
+    marginBottom: 4,
     borderWidth: 1,
     borderColor: Color.gray80,
     borderRadius: 4,
@@ -61,6 +68,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Color.theme1,
+  },
+  text: {
+    fontSize: 12,
+    color: Color.gray40,
+    paddingLeft: 12,
+    marginBottom: 24,
   },
 });
 

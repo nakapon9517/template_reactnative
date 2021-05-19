@@ -1,51 +1,18 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Color } from '@/constants';
 import { Calc, Category } from '@/entities';
 import { ListItem } from './item/ListItem';
 import SectionList from 'react-native-tabs-section-list';
+import { Icon } from 'react-native-elements';
 
 interface Props {
   items: Calc[];
   categories: Category[];
   onClickItem: (item: Calc) => void;
+  onClickCategory: (index: number) => void;
 }
 export const CalcList = (props: Props) => {
-  type TabProps = {
-    title: string;
-    isActive: boolean;
-  };
-  const TabView = React.memo((props: TabProps) => {
-    const styles = StyleSheet.create({
-      tabContainer: {
-        borderBottomColor: '#090909',
-      },
-      tabText: {
-        padding: 16,
-        color: '#9e9e9e',
-        fontSize: 18,
-        fontWeight: '500',
-      },
-    });
-    return (
-      <View
-        style={[
-          styles.tabContainer,
-          { borderBottomWidth: props.isActive ? 3 : 0 },
-        ]}
-      >
-        <Text
-          style={[
-            styles.tabText,
-            { color: props.isActive ? Color.gray5 : Color.gray50 },
-          ]}
-        >
-          {props.title}
-        </Text>
-      </View>
-    );
-  });
-
   const sections = useMemo(
     () =>
       props.categories.map((category, index) => {
@@ -61,17 +28,38 @@ export const CalcList = (props: Props) => {
     <SectionList
       sections={sections}
       keyExtractor={(item, index) => String(index)}
-      stickySectionHeadersEnabled={false}
       initialNumToRender={10}
       tabBarStyle={styles.tabBar}
       contentContainerStyle={{ paddingBottom: 200, paddingHorizontal: 12 }}
-      renderTab={({ title, isActive }) => (
-        <TabView title={title} isActive={isActive} />
-      )}
+      renderTab={({ title, isActive }) => {
+        const styles = StyleSheet.create({
+          tabContainer: {
+            borderBottomColor: Color.gray5,
+            borderBottomWidth: isActive ? 2 : 0,
+          },
+          tabText: {
+            padding: 16,
+            fontSize: 18,
+            fontWeight: '500',
+            color: isActive ? Color.gray5 : Color.gray50,
+          },
+        });
+        return (
+          <View style={styles.tabContainer}>
+            <Text style={styles.tabText}>{title}</Text>
+          </View>
+        );
+      }}
       renderSectionHeader={({ section }) => (
-        <View>
+        <TouchableOpacity
+          style={styles.sectionHeaderView}
+          onPress={() => props.onClickCategory(Number(section.index))}
+        >
           <Text style={styles.sectionHeaderText}>{section.title}</Text>
-        </View>
+          <View style={styles.icon}>
+            <Icon type='material' name='edit' color={Color.gray40} size={24} />
+          </View>
+        </TouchableOpacity>
       )}
       renderSectionFooter={({ section }) => (
         <ListItem
@@ -98,13 +86,21 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     paddingHorizontal: 12,
-    borderBottomColor: '#f4f4f4',
+    borderBottomColor: Color.gray40,
     borderBottomWidth: 1,
   },
+  sectionHeaderView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Color.gray100,
+  },
   sectionHeaderText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     paddingVertical: 16,
     color: Color.gray5,
+  },
+  icon: {
+    marginLeft: 8,
   },
 });

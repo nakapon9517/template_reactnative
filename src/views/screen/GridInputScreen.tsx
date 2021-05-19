@@ -39,7 +39,6 @@ export const GridInputScreen = (props: Props) => {
     } else {
       setImage('@/assets/images/noImage_gray.png');
     }
-    console.log(image);
   }, []);
 
   const pickImage = async () => {

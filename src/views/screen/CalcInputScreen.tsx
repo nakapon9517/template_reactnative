@@ -3,17 +3,19 @@ import {
   StyleSheet,
   View,
   Text,
+  Alert,
   Platform,
   KeyboardAvoidingView,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
-import { Category } from '@/entities';
 import { Route, Color } from '@/constants';
 import { Header } from '@/views/components';
-import { useCalcCategories } from '@/hooks';
+import { useCalcList, useCalcCategories } from '@/hooks';
+import { Formatter } from '@/utils';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { Input, Icon } from 'react-native-elements';
+import { Input, Icon, Slider } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 
 interface Props {
@@ -23,35 +25,51 @@ interface Props {
 
 export const CalcInputScreen = (props: Props) => {
   const { calc } = props.route.params;
+  const { calcs, setCalcList } = useCalcList();
   const { calcCategories, setCalcCategoryList } = useCalcCategories();
-  const [category, setCategory] = useState<Category>();
-  const [name, setName] = useState<string>();
-  const [count, setCount] = useState<number>();
-  const [price, setPrice] = useState<number>();
-  const pickNumbers = Array(101)
-    .fill(undefined)
-    .map((_, i) => {
-      return { label: String(i), value: i, key: i };
-    });
+  const [category, setCategory] = useState<number>(0);
+  const [title, setTitle] = useState<string>();
+  const [count, setCount] = useState<number>(0);
+  const [price, setPrice] = useState<string>();
 
   useEffect(() => {
     if (calc) {
-      setCategory(calcCategories && calcCategories[calc.category]);
-      setName(calc.name);
+      setCategory(calc.category);
+      setTitle(calc.name);
       setCount(calc.count);
-      setPrice(calc.price);
+      setPrice(String(calc.price));
     }
   }, []);
 
   const onUpdate = () => {
-    // データ更新処理
-    console.log('bbbb');
+    if (category === undefined) {
+      Alert.alert('入力エラー', 'カテゴリは必須');
+      return;
+    } else if (!title) {
+      Alert.alert('入力エラー', 'タイトルは必須');
+      return;
+    }
+    const num = Number(price);
+    if ((price && !Number.isSafeInteger(num)) || 0 > num || 99999999 < num) {
+      Alert.alert('入力エラー', '価格は¥0 ~ ¥99,999,999で入力');
+      return;
+    }
+    setCalcList([
+      ...(calcs ?? []),
+      {
+        id: '1',
+        name: title,
+        count: count,
+        price: price ? Number(price) : undefined,
+        category: category,
+      },
+    ]);
     onClose();
   };
 
   const onClose = () => {
-    setCategory(undefined);
-    setName(undefined);
+    setCategory(0);
+    setTitle(undefined);
     setCount(0);
     props.navigation.goBack();
   };
@@ -61,53 +79,84 @@ export const CalcInputScreen = (props: Props) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.modal}
-        keyboardVerticalOffset={300}
+        // keyboardVerticalOffset={300}
       >
-        <Header title={category?.title} onClickBack={onClose} />
+        <Header
+          onClickBack={onClose}
+          RightComponent={
+            <TouchableOpacity onPress={onUpdate} style={styles.icon}>
+              <Icon
+                type='material'
+                name='check'
+                color={Color.gray40}
+                size={20}
+              />
+            </TouchableOpacity>
+          }
+        />
         <View style={styles.body}>
-          <Input
-            value={name}
-            label='Name'
-            labelStyle={styles.label}
-            placeholder='入力...'
-            onChangeText={(text) => setName(text)}
-            containerStyle={styles.input}
-            inputStyle={styles.inputName}
-          />
-          <View style={styles.countWrapper}>
-            <Text style={styles.label}>Count(Max:100)</Text>
+          <View>
+            <Text style={styles.label}>カテゴリ*</Text>
             <View style={styles.countView}>
-              <View>
-                <RNPickerSelect
-                  items={pickNumbers}
-                  value={count}
-                  style={customPickerStyles}
-                  placeholder={{ label: 'Select...', value: undefined }}
-                  onValueChange={(value) => setCount(value)}
-                  Icon={() => (
-                    <Icon
-                      type='material'
-                      name='keyboard-arrow-down'
-                      size={24}
-                      color={Color.gray5}
-                      style={{
-                        height: 40,
-                        justifyContent: 'center',
-                      }}
-                    />
-                  )}
-                />
-              </View>
+              <RNPickerSelect
+                items={
+                  calcCategories
+                    ? calcCategories.map((category, i) => {
+                        return { label: category.title, value: i, key: i };
+                      })
+                    : []
+                }
+                value={category}
+                style={customPickerStyles}
+                placeholder={{ label: '', value: undefined }}
+                onValueChange={setCategory}
+                Icon={() => (
+                  <Icon
+                    type='material'
+                    name='keyboard-arrow-down'
+                    size={24}
+                    color={Color.gray5}
+                    style={{
+                      height: 40,
+                      justifyContent: 'center',
+                    }}
+                  />
+                )}
+              />
             </View>
           </View>
           <Input
-            value={price ? String(price) : undefined}
-            label='Price'
+            value={title}
+            label='タイトル'
             labelStyle={styles.label}
-            placeholder='100..'
-            onChangeText={(text) => setPrice(Number(text))}
+            placeholder='入力...'
+            onChangeText={(text) => setTitle(text)}
             containerStyle={styles.input}
-            inputStyle={styles.inputName}
+            inputStyle={styles.inputTitle}
+          />
+          <View style={styles.countWrapper}>
+            <Text style={styles.label}>カウント {count}</Text>
+            <Slider
+              step={1}
+              minimumValue={0}
+              maximumValue={100}
+              value={count}
+              onValueChange={setCount}
+              thumbStyle={{
+                height: 20,
+                width: 20,
+                backgroundColor: Color.theme2,
+              }}
+            />
+          </View>
+          <Input
+            value={price ? String(price) : undefined}
+            label='価格'
+            labelStyle={styles.label}
+            placeholder='入力...'
+            onChangeText={setPrice}
+            containerStyle={styles.input}
+            inputStyle={styles.inputPrice}
             keyboardType='number-pad'
           />
         </View>
@@ -150,9 +199,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Color.gray40,
   },
-  inputName: {
+  inputTitle: {
     color: Color.gray5,
     paddingLeft: 8,
+  },
+  inputPrice: {
+    color: Color.gray5,
+    paddingRight: 8,
+    textAlign: 'right',
   },
   countWrapper: {
     width: 300,
@@ -173,9 +227,10 @@ const styles = StyleSheet.create({
 
 const customPickerStyles = StyleSheet.create({
   inputIOS: {
-    width: 260,
+    width: 288,
     height: 40,
     fontSize: 16,
+    paddingLeft: 12,
     alignItems: 'center',
     borderRadius: 8,
     color: Color.gray5,

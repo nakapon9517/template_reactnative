@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import { Calc } from '@/entities';
 import { Route, Color } from '@/constants';
 import { useCalcList, useCalcCategories } from '@/hooks';
@@ -13,6 +19,8 @@ import {
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
+import Modal from 'react-native-modal';
+import { Input } from 'react-native-elements';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Calc'>;
@@ -21,14 +29,29 @@ type Props = {
 
 const CalcScreen = (props: Props) => {
   const { calcs, setCalcList } = useCalcList();
-  const { calcCategories } = useCalcCategories();
+  const { calcCategories, setCalcCategoryList } = useCalcCategories();
   const [disabled, setDisabled] = useState(false);
+  const [editCategory, setEditCategory] = useState<number>();
+  const [editText, setEditText] = useState<string>();
 
   useEffect(() => {
     setDisabled(calcCategories ? calcCategories.length === 0 : true);
-  }, []);
+  }, [calcCategories]);
 
-  const onClickCategory = () => {};
+  const onClickUpdate = () => {
+    calcCategories &&
+      editCategory &&
+      editText &&
+      setCalcCategoryList([
+        ...calcCategories.filter((_, i) => i !== editCategory),
+        {
+          id: editCategory,
+          title: editText,
+        },
+      ]);
+    setEditText(undefined);
+    setEditCategory(undefined);
+  };
 
   const onClickAddCategoryButton = () => {
     props.navigation.navigate('CalcCategoryScreen');
@@ -41,15 +64,42 @@ const CalcScreen = (props: Props) => {
     props.navigation.navigate('CalcInput', { calc });
   };
 
+  const onClickCategory = (index: number) => {
+    setEditText(calcCategories && calcCategories[index].title);
+    setEditCategory(index);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
-      <Header title='計算' />
+      <Header title='集計' />
       <CalcList
         items={calcs ?? []}
         categories={calcCategories ?? []}
+        onClickCategory={onClickCategory}
         onClickItem={onClickItem}
       />
+      {Boolean(editCategory) && (
+        <View style={styles.modalView}>
+          <Modal isVisible onBackdropPress={() => setEditCategory(undefined)}>
+            <View style={styles.modal}>
+              <View style={styles.buttons}>
+                <TouchableOpacity style={styles.button} onPress={onClickUpdate}>
+                  <Text>更新</Text>
+                </TouchableOpacity>
+              </View>
+              <Input
+                value={editText}
+                label='カテゴリ'
+                labelStyle={styles.label}
+                onChangeText={setEditText}
+                inputStyle={styles.text}
+                maxLength={40}
+              />
+            </View>
+          </Modal>
+        </View>
+      )}
       <AddTabButton onPress={onClickAddCategoryButton} />
       <AddButton disabled={disabled} onPress={onClickAddButton} />
       <Admob />
@@ -66,6 +116,40 @@ const styles = StyleSheet.create({
     padding: 8,
     marginRight: 4,
     alignItems: 'flex-end',
+  },
+  modalView: {
+    // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  modal: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 100,
+    backgroundColor: Color.gray90,
+  },
+  buttons: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+  },
+  button: {
+    width: 80,
+    height: 40,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Color.theme1,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: Color.gray40,
+  },
+  text: {
+    color: Color.gray5,
+    paddingLeft: 8,
   },
 });
 

@@ -81,8 +81,8 @@
     },
     {
       "text": "console.log",
-      "backgroundColor": "#CEF9DC",
-      "color": "#000000"
+      "backgroundColor": "#000000",
+      "color": "#D7DF01"
     },
     {
       "text": "console.debug",
