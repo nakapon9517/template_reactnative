@@ -8,6 +8,5 @@ export * from './memo/MemoList';
 
 export * from './calc/CalcList';
 export * from './calc/CategoryNew';
-export * from './calc/CategoryView';
 
 export * from './grid/GridList';
