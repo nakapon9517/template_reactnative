@@ -14,11 +14,13 @@ const TabNavigator = () => {
       initialRouteName='Memo'
       tabBarOptions={{
         showLabel: false,
+        style: { height: 70 },
         inactiveTintColor: Color.gray50,
         activeTintColor: Color.gray5,
         inactiveBackgroundColor: Color.gray100,
         activeBackgroundColor: Color.gray100,
       }}
+      sceneContainerStyle={{ backgroundColor: 'yellow' }}
     >
       <Tab.Screen
         name='MemoTab'

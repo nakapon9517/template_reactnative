@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, View, Text, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Memo } from '@/entities';
 import { Color } from '@/constants';
 import { MemoItem } from './item/MemoItem';
@@ -19,7 +19,10 @@ const MemoList = (props: Props) => {
       )}
       keyExtractor={(_, index) => String(index)}
       renderHiddenItem={(data, rowMap) => (
-        <View style={styles.rowBack}>
+        <TouchableOpacity
+          style={styles.rowBack}
+          onPress={() => props.onRowDelete(data.item.id)}
+        >
           <Text
             style={{
               color: Color.gray5,
@@ -27,13 +30,14 @@ const MemoList = (props: Props) => {
           >
             Delete
           </Text>
-        </View>
+        </TouchableOpacity>
       )}
       disableRightSwipe
       rightOpenValue={-100}
       rightActivationValue={-100}
       rightActionValue={-100}
-      onRightAction={props.onRowDelete}
+      // onRightAction={(key, map) => console.log(map.memo)}
+      // onRightAction={(key, map) => props.onRowDelete(map.)}
     />
   );
 };

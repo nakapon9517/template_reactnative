@@ -8,7 +8,7 @@ export const useCalcList = () => {
 
   const setCalcList = (calcs: Calc[]) => {
     const storage = new Storage<Calc[]>();
-    storage.save(StorageName.MEMO_LIST, calcs);
+    storage.save(StorageName.CALC_LIST, calcs);
     setCalcs(calcs);
   };
 

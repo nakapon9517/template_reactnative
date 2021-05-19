@@ -28,36 +28,41 @@ export const CalcInputScreen = (props: Props) => {
   const { calcs, setCalcList } = useCalcList();
   const { calcCategories, setCalcCategoryList } = useCalcCategories();
   const [category, setCategory] = useState<number>(0);
+  const [id, setId] = useState<string>('0');
   const [title, setTitle] = useState<string>();
   const [count, setCount] = useState<number>(0);
   const [price, setPrice] = useState<string>();
 
   useEffect(() => {
     if (calc) {
+      const newId = calcs
+        ? (Math.max(...calcs.map((_) => Number(_.id))) + 1).toString()
+        : '0';
+      setId(calc ? calc.id : newId);
       setCategory(calc.category);
       setTitle(calc.name);
       setCount(calc.count);
-      setPrice(String(calc.price));
+      setPrice(price && String(calc.price));
     }
   }, []);
 
   const onUpdate = () => {
     if (category === undefined) {
-      Alert.alert('入力エラー', 'カテゴリは必須');
+      Alert.alert('選択エラー', 'カテゴリは必須です');
       return;
     } else if (!title) {
-      Alert.alert('入力エラー', 'タイトルは必須');
+      Alert.alert('入力エラー', 'タイトルは必須です');
       return;
     }
     const num = Number(price);
     if ((price && !Number.isSafeInteger(num)) || 0 > num || 99999999 < num) {
-      Alert.alert('入力エラー', '価格は¥0 ~ ¥99,999,999で入力');
+      Alert.alert('入力エラー', '価格は¥0 ~ ¥99,999,999で入力してください');
       return;
     }
     setCalcList([
       ...(calcs ?? []),
       {
-        id: '1',
+        id: id,
         name: title,
         count: count,
         price: price ? Number(price) : undefined,
@@ -85,12 +90,7 @@ export const CalcInputScreen = (props: Props) => {
           onClickBack={onClose}
           RightComponent={
             <TouchableOpacity onPress={onUpdate} style={styles.icon}>
-              <Icon
-                type='material'
-                name='check'
-                color={Color.gray40}
-                size={20}
-              />
+              <Text>更新</Text>
             </TouchableOpacity>
           }
         />
@@ -150,7 +150,7 @@ export const CalcInputScreen = (props: Props) => {
             />
           </View>
           <Input
-            value={price ? String(price) : undefined}
+            value={price}
             label='価格'
             labelStyle={styles.label}
             placeholder='入力...'
@@ -179,9 +179,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    padding: 8,
+    width: 50,
+    height: 30,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 4,
-    alignItems: 'flex-end',
+    backgroundColor: Color.theme1,
   },
   category: {
     fontSize: 32,

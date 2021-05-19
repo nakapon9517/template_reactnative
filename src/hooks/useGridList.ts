@@ -8,7 +8,7 @@ export const useGridList = () => {
 
   const setGridList = (grids: Grid[]) => {
     const storage = new Storage<Grid[]>();
-    storage.save(StorageName.MEMO_LIST, grids);
+    storage.save(StorageName.GRID_LIST, grids);
     setGrids(grids);
   };
 

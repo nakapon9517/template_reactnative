@@ -7,16 +7,14 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import { Route, Color } from '@/constants';
 import { Textarea, Header } from '@/views/components';
-import { Memo } from '@/entities';
 import { useMemoList } from '@/hooks';
-import { Storage, StorageName } from '@/utils/Storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { Input, Icon } from 'react-native-elements';
-import { stringify, parse } from 'telejson';
 
 interface Props {
   navigation: StackNavigationProp<Route, 'MemoInput'>;
@@ -30,10 +28,13 @@ export const MemoInputScreen = (props: Props) => {
   const [title, setTitle] = useState<string>();
   const [text, setText] = useState<string>();
   const [edit, setEdit] = useState(false);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
-    setId(memo ? memo.id : String(memos ? memos.length : 0));
+    const newId =
+      Array.isArray(memos) && memos.length > 0
+        ? (Math.max(...memos.map((_) => Number(_.id))) + 1).toString()
+        : '0';
+    setId(memo ? memo.id : newId);
     setTitle(memo?.title);
     setText(memo?.text);
     setEdit(!memo);
@@ -51,14 +52,14 @@ export const MemoInputScreen = (props: Props) => {
       ]);
       onClose();
     } else {
-      setError(true);
+      Alert.alert('選択エラー', 'カテゴリは必須です');
+      return;
     }
   };
 
   const onClose = () => {
     setTitle(undefined);
     setText('');
-    setError(false);
     props.navigation.goBack();
   };
 
@@ -86,41 +87,23 @@ export const MemoInputScreen = (props: Props) => {
           }
           RightComponent={
             <TouchableOpacity onPress={onUpdate} style={styles.icon}>
-              <Icon
-                type='material'
-                name='check'
-                color={Color.gray40}
-                size={20}
-              />
+              <Text>更新</Text>
             </TouchableOpacity>
           }
         />
         <View style={styles.body}>
           {edit && (
-            <>
-              <Input
-                value={title}
-                label='タイトル*'
-                labelStyle={styles.label}
-                placeholder='入力...'
-                onChangeText={setTitle}
-                containerStyle={styles.input}
-                inputStyle={styles.inputName}
-              />
-              {error && (
-                <Text style={styles.errorText}>タイトルが未入力です</Text>
-              )}
-            </>
+            <Input
+              value={title}
+              label='タイトル*'
+              labelStyle={styles.label}
+              placeholder='入力...'
+              onChangeText={setTitle}
+              containerStyle={styles.input}
+              inputStyle={styles.inputName}
+            />
           )}
           <Textarea text={text} onChangeText={setText} />
-          {/* {!error && (
-            <TouchableOpacity
-              style={styles.error}
-              onPress={() => setError(false)}
-            >
-              <Text style={styles.errorText}>タイトルが未入力です</Text>
-            </TouchableOpacity>
-          )} */}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -133,9 +116,13 @@ const styles = StyleSheet.create({
     backgroundColor: Color.gray100,
   },
   icon: {
-    paddingHorizontal: 8,
+    width: 50,
+    height: 30,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 4,
-    alignItems: 'flex-end',
+    backgroundColor: Color.theme1,
   },
   modal: {
     flex: 1,
@@ -168,18 +155,5 @@ const styles = StyleSheet.create({
   inputName: {
     color: Color.gray5,
     paddingLeft: 8,
-  },
-  error: {
-    position: 'absolute',
-    bottom: 0,
-    width: '80%',
-    height: 60,
-    backgroundColor: Color.red,
-    marginBottom: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  errorText: {
-    color: Color.red,
   },
 });
