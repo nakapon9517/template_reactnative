@@ -36,8 +36,6 @@ const MemoList = (props: Props) => {
       rightOpenValue={-100}
       rightActivationValue={-100}
       rightActionValue={-100}
-      // onRightAction={(key, map) => console.log(map.memo)}
-      // onRightAction={(key, map) => props.onRowDelete(map.)}
     />
   );
 };

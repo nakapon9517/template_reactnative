@@ -31,7 +31,7 @@ const CalcScreen = (props: Props) => {
   const { calcs, setCalcList } = useCalcList();
   const { calcCategories, setCalcCategoryList } = useCalcCategories();
   const [disabled, setDisabled] = useState(false);
-  const [editCategory, setEditCategory] = useState<number>();
+  const [editCategory, setEditCategory] = useState<string>();
   const [editText, setEditText] = useState<string>();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const CalcScreen = (props: Props) => {
       editCategory &&
       editText &&
       setCalcCategoryList([
-        ...calcCategories.filter((_, i) => i !== editCategory),
+        ...calcCategories.filter((_, i) => _.id !== editCategory),
         {
           id: editCategory,
           title: editText,
@@ -64,9 +64,9 @@ const CalcScreen = (props: Props) => {
     props.navigation.navigate('CalcInput', { calc });
   };
 
-  const onClickCategory = (index: number) => {
-    setEditText(calcCategories && calcCategories[index].title);
-    setEditCategory(index);
+  const onClickCategory = (id: string) => {
+    setEditText(calcCategories?.find((_) => _.id === id)?.title);
+    setEditCategory(id);
   };
 
   return (

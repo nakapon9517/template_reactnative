@@ -10,13 +10,14 @@ interface Props {
   items: Calc[];
   categories: Category[];
   onClickItem: (item: Calc) => void;
-  onClickCategory: (index: number) => void;
+  onClickCategory: (id: string) => void;
 }
 export const CalcList = (props: Props) => {
   const sections = useMemo(
     () =>
       props.categories.map((category, index) => {
         return {
+          key: category.id,
           title: category.title,
           data: props.items.filter((item) => item.category === index),
         };
@@ -27,7 +28,7 @@ export const CalcList = (props: Props) => {
   return (
     <SectionList
       sections={sections}
-      keyExtractor={(item, index) => String(index)}
+      keyExtractor={(item, index) => String(item.key)}
       initialNumToRender={10}
       tabBarStyle={styles.tabBar}
       contentContainerStyle={{ paddingBottom: 200, paddingHorizontal: 12 }}
@@ -53,7 +54,7 @@ export const CalcList = (props: Props) => {
       renderSectionHeader={({ section }) => (
         <TouchableOpacity
           style={styles.sectionHeaderView}
-          onPress={() => props.onClickCategory(Number(section.index))}
+          onPress={() => props.onClickCategory(section.key ? section.key : '')}
         >
           <Text style={styles.sectionHeaderText}>{section.title}</Text>
           <View style={styles.icon}>

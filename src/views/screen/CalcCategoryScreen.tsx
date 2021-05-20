@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -23,13 +23,20 @@ type Props = {
 const CalcCategoryScreen = (props: Props) => {
   const { calcs, setCalcList } = useCalcList();
   const { calcCategories, setCalcCategoryList } = useCalcCategories();
+  const [id, setId] = useState<string>();
+
+  useEffect(() => {
+    setId(
+      Array.isArray(calcCategories) && calcCategories.length > 0
+        ? (Math.max(...calcCategories.map((_) => Number(_.id))) + 1).toString()
+        : '0'
+    );
+  }, [calcCategories]);
 
   const onSaveNewCategory = (text?: string) => {
-    if (!text) return;
-    setCalcCategoryList([
-      ...(calcCategories ?? []),
-      { id: calcCategories ? calcCategories.length : 0, title: text },
-    ]);
+    if (id && text) {
+      setCalcCategoryList([...(calcCategories ?? []), { id: id, title: text }]);
+    }
   };
 
   const onClickDelete = (id: number) => {
