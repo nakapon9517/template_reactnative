@@ -16,6 +16,7 @@ type Props = {
 
 const MemoScreen = (props: Props) => {
   const { memos, setMemoList } = useMemoList();
+  const [edit, setEdit] = useState(false);
 
   const onRowDelete = (id: string) => {
     setMemoList(memos?.filter((memo) => memo.id !== id) ?? []);
@@ -32,9 +33,22 @@ const MemoScreen = (props: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
-      <Header title='メモ' />
+      <Header
+        title='メモ'
+        RightComponent={
+          <TouchableOpacity style={styles.icon} onPress={() => setEdit(!edit)}>
+            <Icon
+              type='material'
+              name='edit'
+              color={edit ? Color.gray5 : Color.gray80}
+              size={24}
+            />
+          </TouchableOpacity>
+        }
+      />
       <MemoList
         memos={memos ?? []}
+        edit={edit}
         onPressList={onClickList}
         onRowDelete={onRowDelete}
       />

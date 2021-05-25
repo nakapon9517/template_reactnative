@@ -8,13 +8,14 @@ import {
 } from 'react-native';
 import { Grid } from '@/entities';
 import { Route, Color } from '@/constants';
-import { useGridList, useGridCategories } from '@/hooks';
+import { useGridList } from '@/hooks';
 import { Admob, GridList, Header, AddButton } from '@/views/components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 import { Icon } from 'react-native-elements';
+import * as Haptics from 'expo-haptics';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Grid'>;
@@ -22,8 +23,7 @@ type Props = {
 };
 
 const GridScreen = (props: Props) => {
-  const { grids, setGrids } = useGridList();
-  const categories = useGridCategories();
+  const { grids, setGridList } = useGridList();
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -38,8 +38,28 @@ const GridScreen = (props: Props) => {
     })();
   }, []);
 
+  const onClickCount = (add: boolean, item: Grid) => {
+    setGridList(
+      grids
+        ? grids.map((grid) => {
+            return {
+              id: grid.id,
+              name: grid.name,
+              count: grid.count + (item.id === grid.id ? (add ? +1 : -1) : 0),
+              uri: grid.uri,
+            };
+          })
+        : []
+    );
+    Haptics.selectionAsync();
+  };
+
   const onClickAddButton = () => {
     props.navigation.navigate('GridInput', {});
+  };
+
+  const onClickDelete = (id: string) => {
+    setGridList(grids?.filter((grid) => grid.id !== id) ?? []);
   };
 
   const onClickItem = (grid: Grid) => {
@@ -62,7 +82,13 @@ const GridScreen = (props: Props) => {
           </TouchableOpacity>
         }
       />
-      <GridList items={grids ?? []} edit={edit} onPress={onClickItem} />
+      <GridList
+        items={grids ?? []}
+        edit={edit}
+        onPress={onClickItem}
+        onClickCount={onClickCount}
+        onClickDelete={onClickDelete}
+      />
       <AddButton onPress={onClickAddButton} />
       <Admob />
     </SafeAreaView>

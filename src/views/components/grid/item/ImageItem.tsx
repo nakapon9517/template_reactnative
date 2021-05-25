@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -7,46 +7,24 @@ import {
   Text,
   Dimensions,
 } from 'react-native';
-import { Item } from '@/entities';
+import { Grid } from '@/entities';
 import { Color } from '@/constants';
 import { Image } from 'react-native-elements';
-import * as Haptics from 'expo-haptics';
 interface Props {
-  item: Item;
+  item: Grid;
   edit: boolean;
   width: number;
-  onPress: (item: Item) => void;
+  onPress: (item: Grid) => void;
+  onClickCount: (add: boolean, item: Grid) => void;
+  onClickDelete: (id: string) => void;
 }
 
 const ImageItem = React.memo((props: Props) => {
-  const [count, setCount] = useState<number>(0);
-
-  useEffect(() => {
-    if (props.item) {
-      setCount(props.item.count);
-    }
-  }, [props.item.count]);
-
-  const onClickCount = (add: boolean) => {
-    if (add) {
-      setCount(count + 1);
-    } else {
-      if (count === 0) return;
-      setCount(count - 1);
-    }
-    // Haptics.notificationAsync();
-    // Haptics.impactAsync();
-    Haptics.selectionAsync();
-  };
-
   return (
     <>
       {props.edit ? (
-        <TouchableOpacity
-          style={styles.view}
-          onPress={() => props.onPress(props.item)}
-        >
-          <View
+        <View style={styles.view}>
+          <TouchableOpacity
             style={[
               styles.image,
               {
@@ -57,7 +35,14 @@ const ImageItem = React.memo((props: Props) => {
                 borderColor: Color.gray20,
               },
             ]}
+            onPress={() => props.onPress(props.item)}
           >
+            <TouchableOpacity
+              style={styles.close}
+              onPress={() => props.onClickDelete(props.item.id)}
+            >
+              <Text style={styles.closeText}>-</Text>
+            </TouchableOpacity>
             <Image
               source={{ uri: props.item.uri, cache: 'force-cache' }}
               containerStyle={[
@@ -71,8 +56,9 @@ const ImageItem = React.memo((props: Props) => {
             <View style={styles.badgeEdit}>
               <Text style={styles.count}>+</Text>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+          <Text style={styles.name}>{props.item.name}</Text>
+        </View>
       ) : (
         <View style={styles.view}>
           <View
@@ -80,7 +66,7 @@ const ImageItem = React.memo((props: Props) => {
           >
             <TouchableOpacity
               style={[styles.left, { width: props.width / 2, maxWidth: 120 }]}
-              onPress={() => onClickCount(false)}
+              onPress={() => props.onClickCount(false, props.item)}
             >
               <View style={styles.leftBadge}>
                 <Text style={styles.minus}>-</Text>
@@ -102,17 +88,18 @@ const ImageItem = React.memo((props: Props) => {
               resizeMode='cover'
             />
             <View style={styles.badge}>
-              <Text style={styles.count}>{count}</Text>
+              <Text style={styles.count}>{props.item.count}</Text>
             </View>
             <TouchableOpacity
               style={[styles.right, { width: props.width / 2, maxWidth: 120 }]}
-              onPress={() => onClickCount(true)}
+              onPress={() => props.onClickCount(true, props.item)}
             >
               <View style={styles.rightBadge}>
                 <Text style={styles.plus}>+</Text>
               </View>
             </TouchableOpacity>
           </View>
+          <Text style={styles.name}>{props.item.name}</Text>
         </View>
       )}
     </>
@@ -125,6 +112,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 8,
+  },
+  close: {
+    width: Dimensions.get('screen').height / 24,
+    height: Dimensions.get('screen').height / 24,
+    position: 'absolute',
+    top: 4,
+    left: 4,
+    borderRadius: 99,
+    borderWidth: 1,
+    borderColor: Color.red,
+    zIndex: 3,
+    backgroundColor: Color.gray100,
+  },
+  closeText: {
+    color: Color.red,
+    fontWeight: 'bold',
+    fontSize: Dimensions.get('screen').height / 25,
+    textAlign: 'center',
+    lineHeight: Dimensions.get('screen').height / 24,
   },
   indicator: {
     width: '100%',
@@ -223,6 +229,10 @@ const styles = StyleSheet.create({
   plus: {
     color: Color.gray5,
     fontSize: 20,
+  },
+  name: {
+    color: Color.gray10,
+    paddingTop: 4,
   },
 });
 

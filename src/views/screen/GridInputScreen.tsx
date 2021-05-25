@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Alert,
   StyleSheet,
   View,
   SafeAreaView,
@@ -9,6 +10,7 @@ import {
 } from 'react-native';
 import { Route, Color } from '@/constants';
 import { Header } from '@/views/components';
+import { useGridList } from '@/hooks';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
@@ -18,21 +20,24 @@ interface Props {
   navigation: StackNavigationProp<Route, 'GridInput'>;
   route: RouteProp<Route, 'GridInput'>;
 }
+const noImage = require('@/assets/images/noImage_gray.png');
 
 export const GridInputScreen = (props: Props) => {
   const { grid } = props.route.params;
-  const noImage = require('@/assets/images/noImage_gray.png');
+  const { grids, setGridList } = useGridList();
+  const [id, setId] = useState<string>('0');
   const [image, setImage] = useState<string>();
   const [name, setName] = useState<string>();
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
-    if (grid) {
-      setImage(grid.uri);
-      setCount(grid.count);
-    } else {
-      // setImage('@/assets/images/noImage_gray.png');
-    }
+    const newId =
+      Array.isArray(grids) && grids.length > 0
+        ? (Math.max(...grids.map((_) => Number(_.id))) + 1).toString()
+        : '0';
+    setId(grid ? grid.id : newId);
+    setImage(grid?.uri);
+    setCount(grid ? grid.count : 0);
   }, []);
 
   const pickImage = async () => {
@@ -44,17 +49,23 @@ export const GridInputScreen = (props: Props) => {
       base64: true,
     });
 
-    if (!result.cancelled) {
-      // console.log(result.base64);
-      // setImage(result.base64);
-      console.log(result.uri);
-      setImage(result.uri);
-    }
+    if (!result.cancelled) setImage(result.uri);
   };
 
   const onUpdate = () => {
-    // データ更新処理
-    console.log('aaaaa');
+    if (!image) {
+      Alert.alert('選択エラー', '画像の選択は必須です');
+      return;
+    }
+    setGridList([
+      ...(grids ?? []),
+      {
+        id: id,
+        count: count,
+        name: name,
+        uri: image,
+      },
+    ]);
     onClose();
   };
 
@@ -105,7 +116,7 @@ export const GridInputScreen = (props: Props) => {
         </TouchableOpacity>
         <Input
           value={name}
-          label='Name'
+          label='タイトル'
           labelStyle={styles.label}
           placeholder='入力...'
           onChangeText={(text) => setName(text)}

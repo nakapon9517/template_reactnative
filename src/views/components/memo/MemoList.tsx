@@ -1,41 +1,27 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import { Memo } from '@/entities';
-import { Color } from '@/constants';
 import { MemoItem } from './item/MemoItem';
-import { SwipeListView } from 'react-native-swipe-list-view';
 interface Props {
   memos: Memo[];
+  edit: boolean;
   onPressList: (memo: Memo) => void;
   onRowDelete: (id: string) => void;
 }
 
 const MemoList = (props: Props) => {
   return (
-    <SwipeListView
+    <FlatList
       data={props.memos}
       renderItem={(memo) => (
-        <MemoItem memo={memo} onPressList={props.onPressList} />
+        <MemoItem
+          memo={memo}
+          edit={props.edit}
+          onPressList={props.onPressList}
+          onRowDelete={props.onRowDelete}
+        />
       )}
       keyExtractor={(_, index) => String(index)}
-      renderHiddenItem={(data, rowMap) => (
-        <TouchableOpacity
-          style={styles.rowBack}
-          onPress={() => props.onRowDelete(data.item.id)}
-        >
-          <Text
-            style={{
-              color: Color.gray5,
-            }}
-          >
-            Delete
-          </Text>
-        </TouchableOpacity>
-      )}
-      disableRightSwipe
-      rightOpenValue={-100}
-      rightActivationValue={-100}
-      rightActionValue={-100}
     />
   );
 };
@@ -43,14 +29,6 @@ const MemoList = (props: Props) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
-  rowBack: {
-    alignItems: 'flex-end',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    backgroundColor: Color.red,
   },
 });
 

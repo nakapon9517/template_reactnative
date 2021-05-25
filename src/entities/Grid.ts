@@ -1,6 +1,6 @@
 export type Grid = {
   id: string;
+  name?: string;
   count: number;
-  category: number;
   uri: string;
 };

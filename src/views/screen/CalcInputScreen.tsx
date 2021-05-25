@@ -26,7 +26,7 @@ interface Props {
 export const CalcInputScreen = (props: Props) => {
   const { calc } = props.route.params;
   const { calcs, setCalcList } = useCalcList();
-  const { calcCategories, setCalcCategoryList } = useCalcCategories();
+  const { calcCategories } = useCalcCategories();
   const [category, setCategory] = useState<number>(0);
   const [id, setId] = useState<string>('0');
   const [title, setTitle] = useState<string>();
@@ -34,16 +34,15 @@ export const CalcInputScreen = (props: Props) => {
   const [price, setPrice] = useState<string>();
 
   useEffect(() => {
-    if (calc) {
-      const newId = calcs
+    const newId =
+      Array.isArray(calcs) && calcs.length > 0
         ? (Math.max(...calcs.map((_) => Number(_.id))) + 1).toString()
         : '0';
-      setId(calc ? calc.id : newId);
-      setCategory(calc.category);
-      setTitle(calc.name);
-      setCount(calc.count);
-      setPrice(price && String(calc.price));
-    }
+    setId(calc ? calc.id : newId);
+    setCategory(calc ? calc.category : 0);
+    setTitle(calc?.name);
+    setCount(calc ? calc.count : 0);
+    setPrice(calc && String(calc.price));
   }, []);
 
   const onUpdate = () => {

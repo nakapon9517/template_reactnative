@@ -7,6 +7,8 @@ interface Props {
   items: Grid[];
   edit: boolean;
   onPress: (item: Grid) => void;
+  onClickCount: (add: boolean, item: Grid) => void;
+  onClickDelete: (id: string) => void;
 }
 export const GridList = React.memo((props: Props) => {
   const { width, height } = Dimensions.get('screen');
@@ -25,6 +27,8 @@ export const GridList = React.memo((props: Props) => {
           edit={props.edit}
           width={height / 4.5}
           onPress={props.onPress}
+          onClickCount={props.onClickCount}
+          onClickDelete={props.onClickDelete}
         />
       )}
     />
