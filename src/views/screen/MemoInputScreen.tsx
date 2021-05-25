@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { Route, Color } from '@/constants';
+import { Formatter } from '@/utils';
 import { Textarea, Header } from '@/views/components';
 import { useMemoList } from '@/hooks';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -30,31 +31,47 @@ export const MemoInputScreen = (props: Props) => {
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
-    const newId =
-      Array.isArray(memos) && memos.length > 0
-        ? (Math.max(...memos.map((_) => Number(_.id))) + 1).toString()
-        : '0';
-    setId(memo ? memo.id : newId);
+    setId(memo?.id);
     setTitle(memo?.title);
     setText(memo?.text);
     setEdit(!memo);
   }, []);
 
   const onUpdate = () => {
-    if (id && title) {
-      setMemoList([
-        ...(memos ?? []),
+    if (!title) {
+      Alert.alert('入力エラー', 'タイトルは必須です');
+      return;
+    }
+
+    if (id !== undefined) {
+      // 編集
+      const edits = memos;
+      edits?.splice(
+        edits.findIndex((e) => e.id === id),
+        1,
         {
           id: id,
           title: title,
           text: text ?? '',
+        }
+      );
+      setMemoList([...(edits ?? [])]);
+    } else {
+      // 新規
+      const newId =
+        memos && memos.length > 0
+          ? (Math.max(...memos.map((_) => Number(_.id))) + 1).toString()
+          : '0';
+      setMemoList([
+        ...(memos ?? []),
+        {
+          id: newId,
+          title: title,
+          text: text ?? '',
         },
       ]);
-      onClose();
-    } else {
-      Alert.alert('選択エラー', 'カテゴリは必須です');
-      return;
     }
+    onClose();
   };
 
   const onClose = () => {

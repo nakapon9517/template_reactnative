@@ -25,17 +25,17 @@ const noImage = require('@/assets/images/noImage_gray.png');
 export const GridInputScreen = (props: Props) => {
   const { grid } = props.route.params;
   const { grids, setGridList } = useGridList();
-  const [id, setId] = useState<string>('0');
+  const [id, setId] = useState<string>();
   const [image, setImage] = useState<string>();
   const [name, setName] = useState<string>();
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
-    const newId =
-      Array.isArray(grids) && grids.length > 0
-        ? (Math.max(...grids.map((_) => Number(_.id))) + 1).toString()
-        : '0';
-    setId(grid ? grid.id : newId);
+    // const newId =
+    //   Array.isArray(grids) && grids.length > 0
+    //     ? (Math.max(...grids.map((_) => Number(_.id))) + 1).toString()
+    //     : '0';
+    setId(grid?.id);
     setImage(grid?.uri);
     setCount(grid ? grid.count : 0);
   }, []);
@@ -57,15 +57,37 @@ export const GridInputScreen = (props: Props) => {
       Alert.alert('選択エラー', '画像の選択は必須です');
       return;
     }
-    setGridList([
-      ...(grids ?? []),
-      {
-        id: id,
-        count: count,
-        name: name,
-        uri: image,
-      },
-    ]);
+
+    if (id !== undefined) {
+      // 編集
+      const edits = grids;
+      edits?.splice(
+        edits.findIndex((e) => e.id === id),
+        1,
+        {
+          id: id,
+          count: count,
+          name: name,
+          uri: image,
+        }
+      );
+      setGridList([...(edits ?? [])]);
+    } else {
+      // 新規
+      const newId =
+        grids && grids.length > 0
+          ? (Math.max(...grids.map((_) => Number(_.id))) + 1).toString()
+          : '0';
+      setGridList([
+        ...(grids ?? []),
+        {
+          id: newId,
+          count: count,
+          name: name,
+          uri: image,
+        },
+      ]);
+    }
     onClose();
   };
 

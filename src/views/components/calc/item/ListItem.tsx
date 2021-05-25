@@ -10,34 +10,50 @@ type FooterProps = {
 };
 interface Props {
   item?: Calc;
+  edit?: boolean;
   footerItem?: FooterProps;
   onClickItem?: (calc: Calc) => void;
+  onRowDelete?: (id: string) => void;
 }
 
 const ListItem = React.memo((props: Props) => {
   return (
     <>
       {props.item && (
-        <TouchableOpacity
-          style={styles.borderItem}
-          onPress={() =>
-            props.item && props.onClickItem && props.onClickItem(props.item)
-          }
-        >
-          <View style={styles.titleView}>
-            <Text style={styles.text}>{props.item.name}</Text>
-          </View>
-          <View style={styles.countView}>
-            <Text style={styles.text}>{props.item.count}</Text>
-          </View>
-          <View style={styles.moneyView}>
-            {props.item.price !== undefined && (
-              <Text style={styles.money}>
-                {Formatter().price(props.item.price)}
-              </Text>
-            )}
-          </View>
-        </TouchableOpacity>
+        <View style={styles.view}>
+          <TouchableOpacity
+            style={styles.borderItem}
+            onPress={() =>
+              props.item && props.onClickItem && props.onClickItem(props.item)
+            }
+          >
+            <View style={styles.titleView}>
+              <Text style={styles.text}>{props.item.name}</Text>
+            </View>
+            <View style={styles.countView}>
+              <Text style={styles.text}>{props.item.count}</Text>
+            </View>
+            <View style={styles.moneyView}>
+              {props.item.price !== undefined && (
+                <Text style={styles.money}>
+                  {Formatter().price(props.item.price)}
+                </Text>
+              )}
+            </View>
+          </TouchableOpacity>
+          {props.edit && (
+            <TouchableOpacity
+              style={styles.editView}
+              onPress={() =>
+                props.onRowDelete &&
+                props.item &&
+                props.onRowDelete(props.item.id)
+              }
+            >
+              <Text style={styles.text}>削除</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       )}
       {props.footerItem && (
         <View style={styles.borderFooterItem}>
@@ -57,7 +73,11 @@ const ListItem = React.memo((props: Props) => {
 });
 
 const styles = StyleSheet.create({
+  view: {
+    flexDirection: 'row',
+  },
   borderItem: {
+    flex: 9,
     paddingLeft: 8,
     paddingVertical: 12,
     flexDirection: 'row',
@@ -72,18 +92,22 @@ const styles = StyleSheet.create({
     borderColor: Color.gray50,
   },
   titleView: {
-    flex: 1,
+    flex: 6,
     paddingEnd: 8,
-    minWidth: '55%',
   },
   countView: {
     flex: 1,
     paddingEnd: 8,
-    minWidth: '15%',
   },
   moneyView: {
+    flex: 2,
+  },
+  editView: {
     flex: 1,
-    minWidth: '30%',
+    minWidth: 40,
+    backgroundColor: Color.red,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 14,

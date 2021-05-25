@@ -28,21 +28,17 @@ export const CalcInputScreen = (props: Props) => {
   const { calcs, setCalcList } = useCalcList();
   const { calcCategories } = useCalcCategories();
   const [category, setCategory] = useState<number>(0);
-  const [id, setId] = useState<string>('0');
+  const [id, setId] = useState<string>();
   const [title, setTitle] = useState<string>();
   const [count, setCount] = useState<number>(0);
   const [price, setPrice] = useState<string>();
 
   useEffect(() => {
-    const newId =
-      Array.isArray(calcs) && calcs.length > 0
-        ? (Math.max(...calcs.map((_) => Number(_.id))) + 1).toString()
-        : '0';
-    setId(calc ? calc.id : newId);
+    setId(calc?.id);
     setCategory(calc ? calc.category : 0);
     setTitle(calc?.name);
     setCount(calc ? calc.count : 0);
-    setPrice(calc && String(calc.price));
+    setPrice(calc && calc.price !== 0 ? String(calc.price) : undefined);
   }, []);
 
   const onUpdate = () => {
@@ -58,16 +54,39 @@ export const CalcInputScreen = (props: Props) => {
       Alert.alert('入力エラー', '価格は¥0 ~ ¥99,999,999で入力してください');
       return;
     }
-    setCalcList([
-      ...(calcs ?? []),
-      {
-        id: id,
-        name: title,
-        count: count,
-        price: price ? Number(price) : undefined,
-        category: category,
-      },
-    ]);
+
+    if (id !== undefined) {
+      // 編集
+      const edits = calcs;
+      edits?.splice(
+        edits.findIndex((e) => e.id === id),
+        1,
+        {
+          id: id,
+          name: title,
+          count: count,
+          price: price ? Number(price) : 0,
+          category: category,
+        }
+      );
+      setCalcList([...(edits ?? [])]);
+    } else {
+      // 新規
+      const newId =
+        calcs && calcs.length > 0
+          ? (Math.max(...calcs.map((_) => Number(_.id))) + 1).toString()
+          : '0';
+      setCalcList([
+        ...(calcs ?? []),
+        {
+          id: newId,
+          name: title,
+          count: count,
+          price: price ? Number(price) : 0,
+          category: category,
+        },
+      ]);
+    }
     onClose();
   };
 

@@ -8,9 +8,11 @@ import { Icon } from 'react-native-elements';
 
 interface Props {
   items: Calc[];
+  edit: boolean;
   categories: Category[];
   onClickItem: (item: Calc) => void;
   onClickCategory: (id: string) => void;
+  onRowDelete: (id: string) => void;
 }
 export const CalcList = (props: Props) => {
   const sections = useMemo(
@@ -28,7 +30,7 @@ export const CalcList = (props: Props) => {
   return (
     <SectionList
       sections={sections}
-      keyExtractor={(item, index) => String(item.key)}
+      keyExtractor={(item, index) => String(item.key) + index}
       initialNumToRender={10}
       tabBarStyle={styles.tabBar}
       contentContainerStyle={{ paddingBottom: 200, paddingHorizontal: 12 }}
@@ -75,7 +77,12 @@ export const CalcList = (props: Props) => {
         />
       )}
       renderItem={({ item }) => (
-        <ListItem item={item} onClickItem={props.onClickItem} />
+        <ListItem
+          item={item}
+          edit={props.edit}
+          onClickItem={props.onClickItem}
+          onRowDelete={props.onRowDelete}
+        />
       )}
     />
   );

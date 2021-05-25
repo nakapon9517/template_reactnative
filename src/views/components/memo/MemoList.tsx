@@ -21,7 +21,7 @@ const MemoList = (props: Props) => {
           onRowDelete={props.onRowDelete}
         />
       )}
-      keyExtractor={(_, index) => String(index)}
+      keyExtractor={(_, index) => _.id + index}
     />
   );
 };

@@ -23,5 +23,15 @@ export const Formatter = () => {
     return dayjs(date).locale('ja').format('YYYY/MM/DD');
   };
 
-  return { price, dateHyphen, dateSlash };
+  const getId = (array: any[] | undefined): string => {
+    if (Array.isArray(array)) {
+      return array.length > 0
+        ? (Math.max(...array.map((_) => Number(_.id))) + 1).toString()
+        : '0';
+    } else {
+      return '0';
+    }
+  };
+
+  return { price, dateHyphen, dateSlash, getId };
 };

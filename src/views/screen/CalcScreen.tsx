@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   StyleSheet,
   SafeAreaView,
   View,
   TouchableOpacity,
-  Text,
 } from 'react-native';
 import { Calc } from '@/entities';
 import { Route, Color } from '@/constants';
@@ -20,7 +20,7 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import Modal from 'react-native-modal';
-import { Input } from 'react-native-elements';
+import { Input, Icon } from 'react-native-elements';
 
 type Props = {
   navigation: StackNavigationProp<Route, 'Calc'>;
@@ -31,28 +31,34 @@ const CalcScreen = (props: Props) => {
   const { calcs, setCalcList } = useCalcList();
   const { calcCategories, setCalcCategoryList } = useCalcCategories();
   const [disabled, setDisabled] = useState(false);
-  const [editCategory, setEditCategory] = useState<string>();
+  const [editId, setEditCategory] = useState<string>();
   const [editText, setEditText] = useState<string>();
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     setDisabled(calcCategories ? calcCategories.length === 0 : true);
   }, [calcCategories]);
 
   const onClickUpdate = () => {
-    calcCategories &&
-      editCategory &&
-      editText &&
-      setCalcCategoryList([
-        ...calcCategories.filter((_, i) => _.id !== editCategory),
-        {
-          id: editCategory,
-          title: editText,
-        },
-      ]);
+    if (!editText) {
+      Alert.alert('入力エラー', 'カテゴリ名は必須です');
+      return;
+    }
+    if (editId && editText) {
+      const edits = calcCategories;
+      edits?.splice(
+        edits.findIndex((e) => e.id === editId),
+        1,
+        { id: editId, title: editText }
+      );
+      setCalcCategoryList([...(edits ?? [])]);
+    }
     setEditText(undefined);
     setEditCategory(undefined);
   };
-
+  const onRowDelete = (id: string) => {
+    setCalcList(calcs?.filter((memo) => memo.id !== id) ?? []);
+  };
   const onClickAddCategoryButton = () => {
     props.navigation.navigate('CalcCategoryScreen');
   };
@@ -72,20 +78,47 @@ const CalcScreen = (props: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='light' />
-      <Header title='集計' />
+      <Header
+        title='集計'
+        RightComponent={
+          <TouchableOpacity style={styles.icon} onPress={() => setEdit(!edit)}>
+            <Icon
+              type='material'
+              name='edit'
+              color={edit ? Color.gray5 : Color.gray80}
+              size={24}
+            />
+          </TouchableOpacity>
+        }
+      />
       <CalcList
         items={calcs ?? []}
+        edit={edit}
         categories={calcCategories ?? []}
         onClickCategory={onClickCategory}
         onClickItem={onClickItem}
+        onRowDelete={onRowDelete}
       />
-      {Boolean(editCategory) && (
+      {Boolean(editId) && (
         <View style={styles.modalView}>
-          <Modal isVisible onBackdropPress={() => setEditCategory(undefined)}>
+          <Modal
+            isVisible
+            onBackdropPress={() => setEditCategory(undefined)}
+            animationOut='fadeOutDown'
+          >
             <View style={styles.modal}>
               <View style={styles.buttons}>
                 <TouchableOpacity style={styles.button} onPress={onClickUpdate}>
-                  <Text>更新</Text>
+                  <Icon
+                    type='material'
+                    name='check'
+                    size={24}
+                    color={Color.gray5}
+                    style={{
+                      height: 40,
+                      justifyContent: 'center',
+                    }}
+                  />
                 </TouchableOpacity>
               </View>
               <Input
@@ -135,12 +168,11 @@ const styles = StyleSheet.create({
     right: 12,
   },
   button: {
-    width: 80,
+    width: 40,
     height: 40,
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.theme1,
   },
   label: {
     fontSize: 16,

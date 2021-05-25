@@ -16,7 +16,7 @@ export const GridList = React.memo((props: Props) => {
   return (
     <FlatList
       data={props.items}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => item.id + index}
       initialNumToRender={5}
       numColumns={2}
       contentContainerStyle={styles.list}
