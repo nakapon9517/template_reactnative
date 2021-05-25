@@ -87,7 +87,16 @@ export const MemoInputScreen = (props: Props) => {
           }
           RightComponent={
             <TouchableOpacity onPress={onUpdate} style={styles.icon}>
-              <Text>更新</Text>
+              <Icon
+                type='material'
+                name='check'
+                size={24}
+                color={Color.gray5}
+                style={{
+                  height: 40,
+                  justifyContent: 'center',
+                }}
+              />
             </TouchableOpacity>
           }
         />
@@ -117,12 +126,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 50,
-    height: 30,
-    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 4,
-    backgroundColor: Color.theme1,
   },
   modal: {
     flex: 1,

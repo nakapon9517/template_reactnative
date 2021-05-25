@@ -12,8 +12,7 @@ import { Header } from '@/views/components';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
-import RNPickerSelect from 'react-native-picker-select';
-import { Input, Image, Icon } from 'react-native-elements';
+import { Input, Image, Slider, Icon } from 'react-native-elements';
 
 interface Props {
   navigation: StackNavigationProp<Route, 'GridInput'>;
@@ -23,21 +22,16 @@ interface Props {
 export const GridInputScreen = (props: Props) => {
   const { grid } = props.route.params;
   const noImage = require('@/assets/images/noImage_gray.png');
-  const pickNumbers = Array(100)
-    .fill(undefined)
-    .map((_, i) => {
-      return { label: String(i), value: i };
-    });
   const [image, setImage] = useState<string>();
   const [name, setName] = useState<string>();
-  const [count, setCount] = useState<number>();
+  const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     if (grid) {
       setImage(grid.uri);
       setCount(grid.count);
     } else {
-      setImage('@/assets/images/noImage_gray.png');
+      // setImage('@/assets/images/noImage_gray.png');
     }
   }, []);
 
@@ -76,6 +70,20 @@ export const GridInputScreen = (props: Props) => {
       <Header
         // title={title}
         onClickBack={onClose}
+        RightComponent={
+          <TouchableOpacity onPress={onUpdate} style={styles.icon}>
+            <Icon
+              type='material'
+              name='check'
+              size={24}
+              color={Color.gray5}
+              style={{
+                height: 40,
+                justifyContent: 'center',
+              }}
+            />
+          </TouchableOpacity>
+        }
       />
       <View style={styles.body}>
         <TouchableOpacity
@@ -90,52 +98,34 @@ export const GridInputScreen = (props: Props) => {
               placeholderStyle={{ backgroundColor: Color.theme2 }}
               PlaceholderContent={<ActivityIndicator />}
             />
-            {image && (
-              <View style={styles.badge}>
-                <Icon
-                  type='material'
-                  name='close'
-                  size={16}
-                  color={Color.gray5}
-                  onPress={() => setImage(undefined)}
-                />
-              </View>
-            )}
+            <View style={styles.badge}>
+              <Text style={styles.plus}>+</Text>
+            </View>
           </View>
         </TouchableOpacity>
         <Input
+          value={name}
           label='Name'
           labelStyle={styles.label}
-          value={name}
+          placeholder='入力...'
           onChangeText={(text) => setName(text)}
           containerStyle={styles.input}
           inputStyle={styles.inputName}
         />
         <View style={styles.input}>
-          <Text style={styles.label}>Count</Text>
-          <View style={styles.countView}>
-            <View>
-              <RNPickerSelect
-                items={pickNumbers}
-                value={count}
-                style={customPickerStyles}
-                placeholder={{ label: 'Select...', value: undefined }}
-                onValueChange={(value) => setCount(value)}
-                Icon={() => (
-                  <Icon
-                    type='material'
-                    name='keyboard-arrow-down'
-                    size={24}
-                    color={Color.gray5}
-                    style={{
-                      height: 40,
-                      justifyContent: 'center',
-                    }}
-                  />
-                )}
-              />
-            </View>
-          </View>
+          <Text style={styles.label}>カウント {count}</Text>
+          <Slider
+            step={1}
+            minimumValue={0}
+            maximumValue={100}
+            value={count}
+            onValueChange={setCount}
+            thumbStyle={{
+              height: 20,
+              width: 20,
+              backgroundColor: Color.theme2,
+            }}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -148,9 +138,9 @@ const styles = StyleSheet.create({
     backgroundColor: Color.gray100,
   },
   icon: {
-    padding: 8,
-    marginRight: 4,
-    alignItems: 'flex-end',
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   body: {
     flex: 10,
@@ -178,7 +168,13 @@ const styles = StyleSheet.create({
     borderRadius: 99,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.gray70,
+    borderWidth: 1,
+    borderColor: Color.gray50,
+    borderStyle: 'dashed',
+  },
+  plus: {
+    color: Color.gray20,
+    fontSize: 18,
   },
   input: {
     width: 300,
@@ -192,26 +188,5 @@ const styles = StyleSheet.create({
   inputName: {
     color: Color.gray5,
     paddingLeft: 8,
-  },
-  countView: {
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    marginTop: 8,
-    padding: 0,
-    borderRadius: 8,
-    backgroundColor: Color.gray70,
-  },
-});
-
-const customPickerStyles = StyleSheet.create({
-  inputIOS: {
-    width: 260,
-    height: 40,
-    fontSize: 16,
-    alignItems: 'center',
-    borderRadius: 8,
-    color: Color.gray5,
   },
 });
