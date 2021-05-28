@@ -11,7 +11,7 @@ yarn install
 yarn start
 ```
 
-## Versions
+## Versions (2021/05/28)
 
 |                 | version |
 | --------------- | ------- |
