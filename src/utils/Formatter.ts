@@ -14,10 +14,24 @@ export const Formatter = () => {
     }
   };
 
+  /** Change -> YYYY-MM-DD */
+  const dateHyphen = (date: Date): string => {
+    return dayjs(date).locale('ja').format('YYYY-MM-DD');
+  };
   /** Change -> YYYY/MM/DD */
   const dateSlash = (date: Date): string => {
     return dayjs(date).locale('ja').format('YYYY/MM/DD');
   };
 
-  return { price, dateSlash };
+  const getId = (array: any[] | undefined): string => {
+    if (Array.isArray(array)) {
+      return array.length > 0
+        ? (Math.max(...array.map((_) => Number(_.id))) + 1).toString()
+        : '0';
+    } else {
+      return '0';
+    }
+  };
+
+  return { price, dateHyphen, dateSlash, getId };
 };

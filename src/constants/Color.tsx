@@ -1,6 +1,12 @@
 export const Color = {
   theme1: '#90AFC5',
   theme2: '#336B87',
+  theme4: '#763626',
+  area1: '#97ba54',
+  area2: '#95c4cb',
+  area3: '#d0c160',
+  area4: '#9370DB',
+  area5: '#f7b7a3',
   white: '#fff',
   black: '#000',
   pink: '#EC96A4',

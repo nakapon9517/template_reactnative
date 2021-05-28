@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   Platform,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -9,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { Route, Color } from '@/constants';
+import { Formatter } from '@/utils';
 import { Textarea, Header } from '@/views/components';
 import { useMemoList } from '@/hooks';
 import { StackNavigationProp } from '@react-navigation/stack';

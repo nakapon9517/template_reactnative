@@ -12,6 +12,7 @@ import { Icon } from 'react-native-elements';
 interface HeaderProps {
   title?: string;
   onClickBack?: () => void;
+  // LeftComponent?: React.ReactNode;
   CenterComponent?: React.ReactNode;
   RightComponent?: React.ReactNode;
 }

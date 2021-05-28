@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Memo } from '@/entities';
 import { AddButton, Admob, MemoList, Header } from '@/views/components';
