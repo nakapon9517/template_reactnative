@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
     zIndex: 99,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    // backgroundColor: Color.area1,
   },
   right: {
     height: '100%',
@@ -189,7 +188,6 @@ const styles = StyleSheet.create({
     zIndex: 99,
     alignItems: 'flex-end',
     justifyContent: 'center',
-    // backgroundColor: Color.area2,
   },
   leftBadge: {
     width: Dimensions.get('screen').height / 24,
