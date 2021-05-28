@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "meemoo",
-    "slug": "meemoo",
+    "name": "template_reactnative",
+    "slug": "template_reactnative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -22,9 +22,6 @@
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
-    },
-    "web": {
-      "favicon": "./src/assets/favicon.ico"
     }
   }
 }

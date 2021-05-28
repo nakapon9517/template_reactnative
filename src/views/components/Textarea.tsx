@@ -19,10 +19,8 @@ interface Props {
 
 export const Textarea = React.memo((props: Props) => {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
-  // const [text, setText] = useState<string>();
 
   useEffect(() => {
-    // setText(props.text);
     Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
     return () => {
@@ -34,10 +32,7 @@ export const Textarea = React.memo((props: Props) => {
   const _keyboardDidHide = () => setKeyboardStatus(false);
 
   return (
-    <View
-      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.input}
-    >
+    <View style={styles.input}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <>
           <ScrollView indicatorStyle='white'>
